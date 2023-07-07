@@ -98,7 +98,7 @@ RUN poetry config virtualenvs.in-project true
 RUN if [ -f pyproject.toml ]; then poetry install --no-root; fi
 
 # uvicornのサーバーを立ち上げる
-ENTRYPOINT ["poetry", "run", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--reload"]
+ENTRYPOINT ["poetry", "run", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--reload", "--port", "8000"]
 ```
 
 ### docker-compose.ymlの編集
@@ -119,7 +119,7 @@ services:
       - .dockervenv:/usr/src/app/.venv
       - ./backend:/usr/src/app
     ports:
-      - 3318:3318
+      - 8000:8000
 ```
 
 ### dockerイメージのビルド
