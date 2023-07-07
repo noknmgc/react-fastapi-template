@@ -43,13 +43,13 @@ services:
 
 ### dockerイメージのビルド
 docker-compose.ymlがあるフォルダで以下のコマンドを実行し、Dockerイメージのビルドを行う。
-```
+```shell
 $ docker-compose build
 ```
 
 ### Docker経由でCreate react app
 frontendサービス内で、create-react-appを行う。
-```
+```shell
 $ docker-compose run --rm frontend sh -c 'npx create-react-app my-app --template typescript'
 ```
 - docker-compose run コマンドを使用して、frontend サービスを実行。
@@ -59,7 +59,7 @@ $ docker-compose run --rm frontend sh -c 'npx create-react-app my-app --template
 
 ### Dockerコンテナの実行
 以下コマンドを実行。バックグラウンドで実行する場合は`-d`オプションを付ける。
-```
+```shell
 $ docker-compose up (-d)
 ```
 
@@ -124,7 +124,7 @@ services:
 
 ### dockerイメージのビルド
 docker-compose.ymlがあるフォルダで以下のコマンドを実行し、Dockerイメージのビルドを行う。
-```
+```shell
 $ docker-compose build
 ```
 
@@ -132,11 +132,11 @@ $ docker-compose build
 
 以下コマンドでdocker上のpythonでpoetryの初期化を行う。
 fastapiとuvicornは、dependencyに追加する。
-```
+```shell
 $ docker-compose run --entrypoint "poetry init --name backend --dependency fastapi --dependency uvicorn[standard]" backend
 ```
 
 ### FastAPI, uvicornのインストール
-```
+```shell
 $ docker-compose run --entrypoint "poetry install --no-root" backend
 ```
