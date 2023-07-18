@@ -5,7 +5,7 @@ from app.schemas.user import UserCreate, UserUpdate
 from app.core.security import get_password_hash
 
 
-def get_user(db: Session, signin_id: str):
+def read_user(db: Session, signin_id: str):
     return db.query(Users).filter(Users.signin_id == signin_id).first()
 
 
