@@ -137,6 +137,105 @@ $ docker-compose run --entrypoint "poetry init --name backend --dependency fasta
 ```
 
 ### FastAPI, uvicornのインストール
+fastapiとuvicornは、既にdependencyに追加しているので、
 ```shell
 $ docker-compose run --entrypoint "poetry install --no-root" backend
+```
+
+### その他のライブラリのインストール
+**sqlalchemyのインストール例**
+
+backendのdockerを立ち上げた後。
+```shell
+$ docker-compose up backend
+```
+
+以下のコマンドにより"backend" コンテナの中で "poetry add sqlalchemy" を実行。
+```shell
+$ docker-compose exec backend poetry add sqlalchemy
+```
+
+## DBの準備
+### docker-compose.ymlの編集
+ここでは、PostgreSQLを使う場合の例を示します。
+
+```yml
+version: '3'
+services:
+  frontend:
+    ...
+  
+  backend:
+    ...
+
+  # 追加
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test
+    volumes:
+      - ./postgresql_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+```
+
+#### 動作確認
+Docker起動後、
+```shell
+$ docker-compose up
+```
+以下のコマンドで、dbコンテナ内で`psql -U postgres -d test`を実行し、testデータベースに接続する。
+```shell
+$ docker-compose exec db psql -U postgres -d test
+```
+
+以下のように表示されるので、`\l`でデータベース一覧を表示できます。
+```psql
+test#=
+```
+データベース一覧で以下のような表示がされれば、正常に動作しています。
+```
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    | ICU Locale | Locale Provider |   Access privileges
+-----------+----------+----------+------------+------------+------------+-----------------+-----------------------
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            |
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            | =c/postgres          +
+           |          |          |            |            |            |                 | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            | =c/postgres          +
+           |          |          |            |            |            |                 | postgres=CTc/postgres
+ test      | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            |
+(4 rows)
+```
+
+### マイグレーション
+マイグレーション用のスクリプトを以下のように作ります。
+定義したmodelsを読み込んで置かないとテーブルが作られないので、
+`import app.models`としています。
+
+```python
+from sqlalchemy import create_engine
+
+from app.db.base import Base
+from app.core.config import settings
+import app.models
+
+
+def reset_database(engine):
+    Base.metadata.drop_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
+
+
+if __name__ == "__main__":
+    engine = create_engine(settings.SQLALCHEMY_DATABASE_URI, echo=True)
+    reset_database(engine=engine)
+```
+
+BackendのDocker起動後、
+```shell
+$ docker-compose up backend
+```
+以下のコマンドで、backendコンテナ内で`poetry run python -m app.migrate`を実行し、migrateを実行する。
+```shell
+$ docker-compose exec backend poetry run python -m app.migrate
 ```
