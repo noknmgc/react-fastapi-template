@@ -2,7 +2,7 @@ import logging
 
 from app.db.session import SessionLocal
 from app.schemas.user import UserCreate
-from app.crud.crud_user import create_user
+from app import crud
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -18,7 +18,7 @@ initial_data = [
 def init() -> None:
     db = SessionLocal()
     for data in initial_data:
-        create_user(db, data)
+        crud.user.create(db, data)
 
 
 if __name__ == "__main__":

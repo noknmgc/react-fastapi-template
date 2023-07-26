@@ -2,16 +2,16 @@ from typing import Dict, Any
 
 from sqlalchemy.orm import Session
 
-from app.models.users import Users
+from app.models.users import User
 from app.schemas.user import UserCreate, UserUpdate
 from app.core.security import get_password_hash
 
 from app.crud.base import CRUDBase
 
 
-class CRUDUser(CRUDBase[Users, UserCreate, UserUpdate]):
+class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
     def read_by_signin_id(self, db: Session, signin_id: str):
-        return db.query(Users).filter(Users.signin_id == signin_id).first()
+        return db.query(User).filter(User.signin_id == signin_id).first()
 
     def create(self, db: Session, user_create: UserCreate):
         # userはpasswordをhashed passwordにするので、CRUDBaseのcreateはオーバーライド
@@ -22,7 +22,7 @@ class CRUDUser(CRUDBase[Users, UserCreate, UserUpdate]):
         db.refresh(db_obj)
         return db_obj
 
-    def update(self, db: Session, user_update: UserUpdate, db_obj: Users):
+    def update(self, db: Session, user_update: UserUpdate, db_obj: User):
         # userはpasswordをhashed passwordにするので、CRUDBaseのupdateはオーバーライド
         user_update_dict = self.__hash_password(user_update)
 
@@ -41,4 +41,4 @@ class CRUDUser(CRUDBase[Users, UserCreate, UserUpdate]):
         return user_dict
 
 
-user = CRUDUser(Users)
+user = CRUDUser(User)
