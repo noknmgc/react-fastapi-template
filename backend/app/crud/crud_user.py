@@ -1,51 +1,44 @@
+from typing import Dict, Any
+
 from sqlalchemy.orm import Session
-from fastapi.encoders import jsonable_encoder
 
 from app.models.users import Users
 from app.schemas.user import UserCreate, UserUpdate
 from app.core.security import get_password_hash
 
-
-def read_user(db: Session, signin_id: str):
-    return db.query(Users).filter(Users.signin_id == signin_id).first()
+from app.crud.base import CRUDBase
 
 
-def read_all_users(db: Session):
-    return db.query(Users).all()
+class CRUDUser(CRUDBase[Users, UserCreate, UserUpdate]):
+    def read_by_signin_id(self, db: Session, signin_id: str):
+        return db.query(Users).filter(Users.signin_id == signin_id).first()
 
+    def create(self, db: Session, user_create: UserCreate):
+        # userはpasswordをhashed passwordにするので、CRUDBaseのcreateはオーバーライド
+        user_create_dict = self.__hash_password(user_create)
+        db_obj = self.model(**user_create_dict)
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
 
-def create_user(db: Session, user_create: UserCreate):
-    db_obj = Users(
-        signin_id=user_create.signin_id,
-        hashed_password=get_password_hash(user_create.password),
-        name=user_create.name,
-        role=user_create.role,
-    )
-    db.add(db_obj)
-    db.commit()
-    db.refresh(db_obj)
-    return db_obj
+    def update(self, db: Session, user_update: UserUpdate, db_obj: Users):
+        # userはpasswordをhashed passwordにするので、CRUDBaseのupdateはオーバーライド
+        user_update_dict = self.__hash_password(user_update)
 
+        db_obj = super().update(db, db_obj, user_update_dict)
+        return db_obj
 
-def update_user(db: Session, user_update: UserUpdate, db_obj: Users):
-    db_obj_dict = jsonable_encoder(db_obj)
-
-    for field, value in user_update:
-        if value is None:
-            continue
-
-        if field in db_obj_dict:
-            if field == "passward":
-                setattr(db_obj, "hashed_password", get_password_hash(value))
+    def __hash_password(self, user_schema: UserCreate | UserUpdate) -> Dict[str, Any]:
+        user_dict: Dict[str, Any] = {}
+        for field, value in user_schema:
+            if value is None:
+                continue
+            if field == "password":
+                user_dict["hashed_password"] = get_password_hash(value)
             else:
-                setattr(db_obj, field, value)
-
-    db.add(db_obj)
-    db.commit()
-    db.refresh(db_obj)
-    return db_obj
+                user_dict[field] = value
+        return user_dict
 
 
-def delete_user(db: Session, db_obj: Users):
-    db.delete(db_obj)
-    db.commit()
+user = CRUDUser(Users)
