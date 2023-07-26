@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 initial_data = [
     UserCreate(signin_id="tarou", password="tarou", name="太郎"),
     UserCreate(signin_id="john", password="john"),
-    UserCreate(signin_id="test", password="test"),
+    UserCreate(signin_id="admin", password="password", role="Admin"),
 ]
 
 
