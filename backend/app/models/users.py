@@ -9,3 +9,4 @@ class Users(Base):
     hashed_password = Column(String, nullable=False)
     name = Column(String, index=True)
     active = Column(Boolean(), default=False)
+    role = Column(String, default="User")
