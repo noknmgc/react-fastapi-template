@@ -3,14 +3,18 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.api.deps import get_db
-from app import crud, schemas
+from app.api.deps import get_db, get_current_user, get_current_admin_user
+from app import crud, schemas, models
 
 router = APIRouter()
 
 
 @router.post("", response_model=schemas.UserResponse)
-def create_user(user_create: schemas.UserCreate, db: Session = Depends(get_db)):
+def create_user(
+    user_create: schemas.UserCreate,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_admin_user),
+):
     user = crud.user.read_by_signin_id(db, user_create.signin_id)
     if user:
         raise HTTPException(
@@ -22,7 +26,11 @@ def create_user(user_create: schemas.UserCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/{signin_id}", response_model=schemas.UserResponse)
-def read_user(signin_id: str, db: Session = Depends(get_db)):
+def read_user(
+    signin_id: str,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+):
     user = crud.user.read_by_signin_id(db, signin_id)
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
@@ -30,14 +38,32 @@ def read_user(signin_id: str, db: Session = Depends(get_db)):
 
 
 @router.get("", response_model=List[schemas.UserResponse])
-def read_all_users(db: Session = Depends(get_db), skip: int = 0, limit: int = 100):
+def read_all_users(
+    db: Session = Depends(get_db),
+    skip: int = 0,
+    limit: int = 100,
+    current_user: models.User = Depends(get_current_user),
+):
     users = crud.user.read_multi(db, skip=skip, limit=limit)
     return users
 
 
+@router.put("/myself", response_model=schemas.UserResponse)
+def update_myself(
+    user_update: schemas.UserUpdate,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+):
+    user = crud.user.update(db, user_update, current_user)
+    return user
+
+
 @router.put("/{signin_id}", response_model=schemas.UserResponse)
 def update_user(
-    signin_id: str, user_update: schemas.UserUpdate, db: Session = Depends(get_db)
+    signin_id: str,
+    user_update: schemas.UserUpdate,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_admin_user),
 ):
     db_obj = crud.user.read_by_signin_id(db, signin_id)
     if db_obj is None:
@@ -47,7 +73,11 @@ def update_user(
 
 
 @router.delete("/{signin_id}", response_model=None)
-def delete_user(signin_id: str, db: Session = Depends(get_db)):
+def delete_user(
+    signin_id: str,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_admin_user),
+):
     user = crud.user.read_by_signin_id(db, signin_id)
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
