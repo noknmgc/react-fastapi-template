@@ -12,7 +12,7 @@ from app.core.config import settings
 from app.core import security
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login/token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login/token")
 
 
 def get_db() -> Generator:

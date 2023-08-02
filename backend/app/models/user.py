@@ -1,6 +1,12 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy.orm import relationship
 
 from app.db.base import Base
+
+if TYPE_CHECKING:
+    from .task import Task
 
 
 class User(Base):
@@ -10,3 +16,4 @@ class User(Base):
     name = Column(String, index=True)
     active = Column(Boolean(), default=False)
     role = Column(String, default="User")
+    tasks = relationship("Task", back_populates="owner")

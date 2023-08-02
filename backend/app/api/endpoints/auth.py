@@ -16,6 +16,7 @@ router = APIRouter()
 def login(
     db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()
 ):
+    print(form_data.username, form_data.password)
     user = crud.user.authenticate(db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(status_code=400, detail="Incorrect email or password")
