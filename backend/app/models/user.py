@@ -15,4 +15,4 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     name = Column(String, index=True)
     role = Column(String, default="User")
-    tasks = relationship("Task", back_populates="owner")
+    tasks = relationship("Task", back_populates="owner", cascade="all, delete-orphan")
