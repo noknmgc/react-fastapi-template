@@ -39,12 +39,6 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
             return None
         return user
 
-    def login(self, db: Session, db_obj: User):
-        super().update(db, db_obj, {"active": True})
-
-    def logout(self, db: Session, db_obj: User):
-        super().update(db, db_obj, {"active": False})
-
     def is_admin(self, user: User) -> bool:
         return user.role == "Admin"
 

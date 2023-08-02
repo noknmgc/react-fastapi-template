@@ -14,6 +14,5 @@ class User(Base):
     signin_id = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
     name = Column(String, index=True)
-    active = Column(Boolean(), default=False)
     role = Column(String, default="User")
     tasks = relationship("Task", back_populates="owner")

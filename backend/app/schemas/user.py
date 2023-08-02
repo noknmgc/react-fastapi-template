@@ -24,7 +24,6 @@ class UserUpdate(BaseModel):
 class UserResponse(BaseModel):
     signin_id: str
     name: str
-    active: bool
 
     class Config:
         orm_mode = True
