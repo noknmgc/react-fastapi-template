@@ -36,20 +36,20 @@ def read_task(
 
 @router.get("", response_model=List[schemas.TaskResponse])
 def read_own_tasks(
-    db: Session = Depends(get_db),
     skip: int = 0,
     limit: int = 100,
+    db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
 ):
     tasks = crud.task.read_multi_by_owner(db, current_user.id, skip, limit)
     return tasks
 
 
-@router.get("/all", response_model=List[schemas.TaskResponse])
+@router.get("/all/", response_model=List[schemas.TaskResponse])
 def read_all_tasks(
-    db: Session = Depends(get_db),
     skip: int = 0,
     limit: int = 100,
+    db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_admin_user),
 ):
     tasks = crud.task.read_multi(db, skip, limit)
