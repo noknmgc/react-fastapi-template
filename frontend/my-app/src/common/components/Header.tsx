@@ -38,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({ user, setUser }) => {
         <ul className="header-list">
           {links.map((link) => {
             return (
-              <li>
+              <li key={link.name}>
                 <NavLink
                   key={link.name}
                   to={link.path}
