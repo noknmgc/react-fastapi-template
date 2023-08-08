@@ -1,5 +1,12 @@
+export interface Token {
+  accessToken: string;
+  type: string;
+}
+
+export type UserRole = "User" | "Admin";
+
 export interface User {
   id: string;
-  token: string;
-  role: "User" | "Admin";
+  token: Token;
+  role: UserRole;
 }
