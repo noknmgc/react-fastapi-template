@@ -76,6 +76,16 @@ create react appで作成したフォルダ内のpackage.jsonを以下のよう�
 ### (付録)Docker環境にnpm install
 今後、この環境にnpm installで新しくパッケージをインストールする場合は、以下の手順で行います。
 
+FrontendのDocker起動後、
+```shell
+$ docker-compose up frontend
+```
+まず、react-create-appで作成したディレクトリに移動する必要があります。
+以下のコマンドで、frontendコンテナ内で`cd my-app`と`npm install ***`を実行し、npm installを実行する。
+```shell
+$ docker-compose exec frontend sh -c "cd my-app && npm install ***"
+```
+
 ## Python(FastAPI)の準備
 ### backend/Dockerfileの作成
 使いたいバージョンのpythonを選ぶ。
