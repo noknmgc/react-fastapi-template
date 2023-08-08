@@ -9,6 +9,23 @@ from app import crud, schemas, models
 router = APIRouter()
 
 
+@router.get("/myself", response_model=schemas.UserResponse)
+def read_myself(
+    current_user: models.User = Depends(get_current_user),
+):
+    return current_user
+
+
+@router.put("/myself", response_model=schemas.UserResponse)
+def update_myself(
+    user_update: schemas.UserUpdate,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+):
+    user = crud.user.update(db, user_update, current_user)
+    return user
+
+
 @router.post("", response_model=schemas.UserResponse)
 def create_user(
     user_create: schemas.UserCreate,
@@ -46,16 +63,6 @@ def read_all_users(
 ):
     users = crud.user.read_multi(db, skip=skip, limit=limit)
     return users
-
-
-@router.put("/myself", response_model=schemas.UserResponse)
-def update_myself(
-    user_update: schemas.UserUpdate,
-    db: Session = Depends(get_db),
-    current_user: models.User = Depends(get_current_user),
-):
-    user = crud.user.update(db, user_update, current_user)
-    return user
 
 
 @router.put("/{signin_id}", response_model=schemas.UserResponse)
