@@ -1,10 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import TextInput from "../../common/components/input/TextInput";
+import LabeledInput from "../../common/components/input/LabeledInput";
+
 import { User } from "../../common/types";
+
 import { login } from "./api/login";
 import { getCurrentUser } from "./api/getUser";
+
 import { userPaths } from "../../routes/UserRoutes";
+import PrimaryButton from "../../common/components/button/PrimaryButton";
 
 interface LoginProps {
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
@@ -52,29 +58,30 @@ const Login: React.FC<LoginProps> = ({ setUser }) => {
 
   return (
     <div>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>id:</label>
-          <input
+      <h1 className="centered-text">React-FastAPI-Template</h1>
+      <form className="centered-box50" onSubmit={handleLogin}>
+        <div className="grid-container">
+          <LabeledInput
+            label="id"
             type="text"
             name="username"
             required
             value={username}
             onChange={handleUsernameChange}
           />
-        </div>
-        <div>
-          <label>password:</label>
-          <input
+
+          <LabeledInput
+            label="password"
             type="password"
             name="password"
             required
             value={password}
             onChange={handlePasswordChange}
           />
+          <div className="centered-text">
+            <PrimaryButton type="submit">Submit</PrimaryButton>
+          </div>
         </div>
-        <button type="submit">login</button>
       </form>
     </div>
   );

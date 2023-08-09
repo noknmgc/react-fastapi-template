@@ -2,8 +2,20 @@ ul {
   list-style: none;
 }
 
-.App {
+.centered-text {
   text-align: center;
+}
+
+.centered-box50 {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.grid-container {
+  display: grid;
+  margin-bottom: 1.5rem;
+  gap: 1.5rem;
 }
 
 .header {

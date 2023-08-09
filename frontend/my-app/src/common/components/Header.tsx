@@ -5,6 +5,7 @@ import { User } from "../types";
 import { adminPaths } from "../../routes/AdminRoutes";
 import { userPaths } from "../../routes/UserRoutes";
 import { publicPaths } from "../../routes/PublicRoutes";
+import PrimaryButton from "./button/PrimaryButton";
 
 interface HeaderProps {
   user: User | null;
@@ -56,7 +57,7 @@ const Header: React.FC<HeaderProps> = ({ user, setUser }) => {
           })}
           {user ? (
             <li>
-              <button onClick={handleLogout}>logout</button>
+              <PrimaryButton onClick={handleLogout}>logout</PrimaryButton>
             </li>
           ) : (
             <></>

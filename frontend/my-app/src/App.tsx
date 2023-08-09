@@ -9,7 +9,7 @@ import "./App.css";
 function App() {
   const [user, setUser] = useState<User | null>(null);
   return (
-    <div className="App">
+    <div>
       <AppRoutes user={user} setUser={setUser} />
     </div>
   );
