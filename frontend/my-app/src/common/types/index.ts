@@ -10,3 +10,9 @@ export interface User {
   token: Token;
   role: UserRole;
 }
+
+export interface Task {
+  id: number;
+  title: string;
+  done: boolean;
+}
