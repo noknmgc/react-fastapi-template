@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import TextInput from "../../common/components/input/TextInput";
 import LabeledInput from "../../common/components/input/LabeledInput";
 
 import { User } from "../../common/types";
