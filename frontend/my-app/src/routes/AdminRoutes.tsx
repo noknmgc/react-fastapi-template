@@ -31,7 +31,10 @@ const AdminRoutes: React.FC<PrivateRoutesProps> = ({ user, setUser }) => {
   return (
     <Routes>
       <Route path="/" element={<App user={user} setUser={setUser} />}>
-        <Route path={adminPaths.todo.path} element={<Todo />} />
+        <Route
+          path={adminPaths.todo.path}
+          element={<Todo user={user} setUser={setUser} />}
+        />
         <Route path={adminPaths.admin.path} element={<Admin />} />
       </Route>
     </Routes>
