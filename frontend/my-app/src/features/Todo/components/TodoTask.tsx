@@ -3,6 +3,7 @@ import { Task, User } from "../../../common/types";
 import { deleteTask } from "../api/deleteTask";
 import { updateTask } from "../api/updateTask";
 import SecondaryButton from "../../../common/components/button/SecondaryButton";
+import EditableTextInput from "../../../common/components/input/EditableTextInput";
 
 interface TodoTaskProps {
   user: User;
@@ -11,30 +12,25 @@ interface TodoTaskProps {
 }
 
 const TodoTask: React.FC<TodoTaskProps> = ({ user, task, setTasks }) => {
-  const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [done, setDone] = useState(task.done);
 
   useEffect(() => {
+    console.log("use effect", task.id);
     updateTask(user.token, task, { done });
-  }, [done, user.token, task]);
-
-  const handleChangeEditMode = () => {
-    setEditing((prev) => !prev);
-  };
+  }, [done]);
 
   const handleConfirmTitle = () => {
     updateTask(user.token, task, { title });
     setTasks((prev) => {
       return prev.map((t) => {
         if (t.id === task.id) {
-          return { ...t, title: title };
+          return { ...t, title };
         } else {
           return { ...t };
         }
       });
     });
-    handleChangeEditMode();
   };
 
   const handleDeleteClick = async (task: Task) => {
@@ -52,30 +48,21 @@ const TodoTask: React.FC<TodoTaskProps> = ({ user, task, setTasks }) => {
           setDone((prev) => !prev);
         }}
       />
-      {editing ? (
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-          onBlur={handleConfirmTitle}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleConfirmTitle();
-            }
-          }}
-          style={{ padding: "3px", marginLeft: "1.5rem", width: "100%" }}
-        />
-      ) : (
-        <label
-          style={{ marginLeft: "1.5rem", width: "100%" }}
-          onClick={handleChangeEditMode}
-        >
-          {task.title}
-        </label>
-      )}
-
+      <EditableTextInput
+        value={title}
+        onChange={(e) => {
+          setTitle(e.target.value);
+        }}
+        onBlur={(e) => {
+          handleConfirmTitle();
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleConfirmTitle();
+          }
+        }}
+        style={{ marginLeft: "1.5rem" }}
+      />
       <SecondaryButton
         onClick={() => {
           handleDeleteClick(task);

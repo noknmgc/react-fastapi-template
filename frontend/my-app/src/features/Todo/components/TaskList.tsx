@@ -39,6 +39,11 @@ const TaskList: React.FC<TaskListProps> = ({ user, tasks, setTasks }) => {
             onChange={(e) => {
               setTitle(e.target.value);
             }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleAddClick();
+              }
+            }}
           />
           <PrimaryButton
             onClick={handleAddClick}
