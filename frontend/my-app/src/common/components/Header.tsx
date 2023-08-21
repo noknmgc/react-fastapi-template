@@ -45,8 +45,9 @@ const Header: React.FC<HeaderProps> = ({ user, setUser }) => {
                   to={link.path}
                   style={({ isActive, isPending }) => {
                     return {
-                      fontWeight: isActive ? "bold" : "",
+                      fontWeight: isActive ? "bold" : "normal",
                       color: isPending ? "red" : "black",
+                      textDecoration: "none",
                     };
                   }}
                 >
