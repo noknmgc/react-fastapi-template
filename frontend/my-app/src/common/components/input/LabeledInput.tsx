@@ -12,7 +12,8 @@ const LabeledInput: React.FC<LabeledInputProps> = (props) => {
   return (
     <div>
       <label htmlFor={`${label}`} className={`${style.textLabel}`}>
-        {label}
+        {label}{" "}
+        {props.required ? <span style={{ color: "red" }}>*</span> : <></>}
       </label>
       <TextInput {...props} id={`${label}`} />
     </div>

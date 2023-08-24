@@ -41,6 +41,7 @@ const Login: React.FC<LoginProps> = ({ setUser }) => {
       window.alert(
         status && detail ? `${status} : ${detail}` : "Something happened"
       );
+      throw error;
     });
     if (!!!token) return;
 
