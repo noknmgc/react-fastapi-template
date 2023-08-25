@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import LabeledInput from "../../common/components/input/LabeledInput";
-
-import { User } from "../../common/types";
-
 import { login } from "./api/login";
 import { getCurrentUser } from "./api/getUser";
 
-import { userPaths } from "../../routes/UserRoutes";
 import PrimaryButton from "../../common/components/button/PrimaryButton";
+import LabeledInput from "../../common/components/input/LabeledInput";
+
+import { userPaths } from "../../routes/UserRoutes";
+import { User } from "../../common/types";
 
 interface LoginProps {
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
