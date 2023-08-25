@@ -1,6 +1,6 @@
 import { axios } from "../../../common/api/axios";
 
-import { Token, UserRole, UserResponse } from "../../../common/types";
+import { Token, UserResponse } from "../../../common/types";
 
 export const getUser = (
   token: Token,

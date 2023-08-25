@@ -1,12 +1,15 @@
 import { useLayoutEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+
 import { getUser } from "../api/getUser";
-import { User, Token } from "../../../common/types";
+import { updateUser } from "../api/updateUser";
+
 import LabeledInput from "../../../common/components/input/LabeledInput";
 import PrimaryButton from "../../../common/components/button/PrimaryButton";
-import CheckBox from "../../../common/components/input/CheckBox";
-import { updateUser } from "../api/updateUser";
 import SecondaryButton from "../../../common/components/button/SecondaryButton";
+import CheckBox from "../../../common/components/input/CheckBox";
+
+import { User, Token } from "../../../common/types";
 
 interface UpdateProps {
   user: User | null;

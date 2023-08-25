@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { createUser } from "../api/createUser";
+
+import LabeledSelect from "../../../common/components/select/LabeledSelect";
 import LabeledInput from "../../../common/components/input/LabeledInput";
 import PrimaryButton from "../../../common/components/button/PrimaryButton";
-import { UserRole, User } from "../../../common/types";
-import LabeledSelect from "../../../common/components/select/LabeledSelect";
-import { USER_ROLES } from "../../../common/constants";
-import { createUser } from "../api/createUser";
 import SecondaryButton from "../../../common/components/button/SecondaryButton";
+
+import { UserRole, User } from "../../../common/types";
+import { USER_ROLES } from "../../../common/constants";
 
 interface AddProps {
   user: User | null;
