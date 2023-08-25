@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
-import { Task, User } from "../../../common/types";
+
 import { deleteTask } from "../api/deleteTask";
 import { updateTask } from "../api/updateTask";
+
 import SecondaryButton from "../../../common/components/button/SecondaryButton";
 import EditableTextInput from "../../../common/components/input/EditableTextInput";
+
+import { Task, User } from "../../../common/types";
 
 interface TodoTaskProps {
   user: User;

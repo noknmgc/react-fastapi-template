@@ -1,8 +1,10 @@
 import { useLayoutEffect, useState } from "react";
 
-import { User, Task, Token } from "../../common/types";
 import { getTasks } from "./api/getTasks";
+
 import TaskList from "./components/TaskList";
+
+import { User, Task, Token } from "../../common/types";
 
 interface TodoProps {
   user: User | null;

@@ -1,10 +1,13 @@
 import { useState } from "react";
 
+import { createTask } from "../api/createTask";
+
 import PrimaryButton from "../../../common/components/button/PrimaryButton";
 import TextInput from "../../../common/components/input/TextInput";
-import { Task, User } from "../../../common/types";
-import { createTask } from "../api/createTask";
+
 import TodoTask from "./TodoTask";
+
+import { Task, User } from "../../../common/types";
 
 interface TaskListProps {
   user: User;
