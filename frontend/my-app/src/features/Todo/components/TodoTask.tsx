@@ -20,7 +20,6 @@ const TodoTask: React.FC<TodoTaskProps> = ({ user, task, setTasks }) => {
   const [done, setDone] = useState(task.done);
 
   useEffect(() => {
-    console.log("use effect", task.id);
     updateTask(user.token, task, { done });
   }, [done]);
 
