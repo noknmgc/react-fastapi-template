@@ -5,6 +5,7 @@ import { updateTask } from "../api/updateTask";
 
 import SecondaryButton from "../../../common/components/button/SecondaryButton";
 import EditableTextInput from "../../../common/components/input/EditableTextInput";
+import CheckBox from "../../../common/components/input/CheckBox";
 
 import { Task, User } from "../../../common/types";
 
@@ -44,8 +45,7 @@ const TodoTask: React.FC<TodoTaskProps> = ({ user, task, setTasks }) => {
   };
   return (
     <>
-      <input
-        type="checkbox"
+      <CheckBox
         checked={done}
         onChange={async (e) => {
           setDone((prev) => !prev);
