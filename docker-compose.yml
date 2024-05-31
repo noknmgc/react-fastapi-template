@@ -8,3 +8,10 @@ services:
       - /app/node_modules
     ports:
       - "3000:3000"
+
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - 8000:8000
