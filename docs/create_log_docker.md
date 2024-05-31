@@ -23,6 +23,9 @@
   - [backend/Dockerfile修正](#backenddockerfile修正)
   - [起動](#起動-1)
   - [ホストマシンでのインストール](#ホストマシンでのインストール-1)
+  - [backend/.gitignore追加](#backendgitignore追加)
+- [DB](#db)
+  - [docker-compose.yml修正](#docker-composeyml修正-1)
 
 
 ## React
@@ -353,4 +356,60 @@ poetryを使って依存ライブラリをインストール
 ```shell
 cd backend
 poetry install --no-root
+```
+
+### backend/.gitignore追加
+pythonのキャッシュはgitには不要なので、以下のような.gitignoreを追加します。
+
+`backend/.gitignore`
+```
+**/__pycache__
+```
+
+## DB
+ここでは、PostgreSQLを使います。
+
+### docker-compose.yml修正
+Dockerでサポートされているpostgresの確認は[こちら](https://hub.docker.com/_/postgres)
+
+docker-composeにdbを追加します。また、backendはdbに依存するので、backendも修正します。
+
+`docker-compose.yml`
+```yml
+services:
+  # 省略
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test
+    ports:
+      - 5432:5432
+
+  backend:
+    build: ./backend
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/app
+    ports:
+      - 8000:8000
+```
+
+また、PostgreSQLのデータを永続化したい場合は、volumesを以下のように設定してください。
+
+```yml
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test
+    volumes:
+      - ./postgresql_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
 ```
