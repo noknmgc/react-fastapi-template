@@ -1,2 +1,6 @@
 # React + FastAPI template
-This is a sample project showcasing the integration of React (Frontend) and FastAPI (Backend). The project aims to provide a simple web application template with a modern frontend framework and a fast backend framework.
+フロントエンドにReact、バックエンドにFastAPI、DBにPostgreSQLを使ったアプリケーションのテンプレートプロジェクトです。
+
+## 資料一覧
+- [React + FastAPI Template 作成ログ（Docker）](./docs/create_log_docker.md)
+- [React + FastAPI Template 作成ログ（ローカル）](./docs/create_log_local.md)
