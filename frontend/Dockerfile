@@ -1,2 +1,11 @@
-FROM node:18.16.1-alpine
-WORKDIR /usr/src/app/frontend
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package*.json /app/
+
+RUN npm install
+
+COPY ./ /app/
+
+CMD ["npm", "run", "dev"]
