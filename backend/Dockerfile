@@ -1,17 +1,17 @@
-FROM python:3.11.4
-ENV PYTHONUNBUFFERED=1
+FROM python:3.12-alpine
 
-WORKDIR /usr/src/app/backend
+WORKDIR /app
 
-# pipを使ってpoetryをインストール
-RUN pip install poetry
+RUN apk update
+RUN apk add curl
 
-# poetryの定義ファイルをコピー (存在する場合)
-COPY pyproject.toml* poetry.lock* ./
+RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python && \
+    cd /usr/local/bin && \
+    ln -s /opt/poetry/bin/poetry && \
+    poetry config virtualenvs.create false
 
-# poetryでライブラリをインストール (pyproject.tomlが既にある場合)
-RUN poetry config virtualenvs.in-project true
-RUN if [ -f pyproject.toml ]; then poetry install --no-root; fi
+COPY ./pyproject.toml ./poetry.lock* /app/
 
-# uvicornのサーバーを立ち上げる
-ENTRYPOINT ["poetry", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--reload", "--port", "8000"]
+RUN poetry install --no-root
+
+CMD ["poetry", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--reload", "--port", "8000"]

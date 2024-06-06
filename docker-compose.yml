@@ -1,42 +1,26 @@
-# versionは、3系
-version: '3'
-# Serviceを設定する
 services:
-  # Service名は、自由に決めていい
   frontend:
-    # DockerfileまでのPath
     build: ./frontend
-    # 環境変数を定義する
     environment:
-      # Node.jsのグローバル変数: 開発用途なのでdevelopmentを指定
       - NODE_ENV=development
-    # ホストマシン:コンテナ => ファイルを共有するための設定
     volumes:
-      - ./frontend:/usr/src/app/frontend
-    # Dockerコンテナ内で実行されるコマンドを指定する
-    command: sh -c 'cd my-app && npm start'
-    # ホストマシンPort番号:コンテナのPost番号
+      - ./frontend:/app
+      - /app/node_modules
     ports:
-      - 0.0.0.0:3000:3000
-    # CLI画面の操作をできるようにする
-    tty: true
-
-  backend:
-    build: ./backend
-    volumes:
-      - .dockervenv:/usr/src/app/backend/.venv
-      - ./backend:/usr/src/app/backend
-    ports:
-      - 0.0.0.0:8000:8000
+      - "3000:3000"
 
   db:
-    image: postgres:15
-    # restart: always
+    image: postgres:16
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: test
-    volumes:
-      - ./postgresql_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
+
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - 8000:8000
