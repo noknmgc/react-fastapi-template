@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 
+from app.api.api import api_router
+
 app = FastAPI()
 
-
-@app.get("/")
-async def root():
-    return {"API": "ACTIVE!"}
+app.include_router(api_router)
