@@ -25,5 +25,4 @@ class User(Base, TimestampMixin):
     todos = relationship(
         "Todo",
         back_populates="user",
-        passive_deletes=True,
     )
