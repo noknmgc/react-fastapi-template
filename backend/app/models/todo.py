@@ -1,7 +1,13 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base, TimestampMixin
+
+if TYPE_CHECKING:
+    from .task import Task
+    from .user import User
 
 
 class Todo(Base, TimestampMixin):
@@ -30,6 +36,7 @@ class Todo(Base, TimestampMixin):
     owner = relationship(
         "User",
         back_populates="todos",
+        foreign_keys=[owner_id],
         passive_deletes=True,
         uselist=False,
     )

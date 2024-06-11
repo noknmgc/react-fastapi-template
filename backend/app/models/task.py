@@ -1,7 +1,12 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base, TimestampMixin
+
+if TYPE_CHECKING:
+    from .todo import Todo
 
 
 class Task(Base, TimestampMixin):
@@ -29,4 +34,5 @@ class Task(Base, TimestampMixin):
         "Todo",
         back_populates="tasks",
         passive_deletes=True,
+        uselist=False,
     )

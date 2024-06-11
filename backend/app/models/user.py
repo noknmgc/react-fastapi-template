@@ -1,7 +1,12 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base, TimestampMixin
+
+if TYPE_CHECKING:
+    from .todo import Todo
 
 
 class User(Base, TimestampMixin):
@@ -27,5 +32,6 @@ class User(Base, TimestampMixin):
 
     todos = relationship(
         "Todo",
-        back_populates="user",
+        back_populates="owner",
+        foreign_keys="Todo.owner_id",
     )
