@@ -22,7 +22,9 @@ def create_user(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="そのユーザー名は、すでに使用されています。",
         )
-    user = crud.user.create(db, user_create)
+    user = crud.user.create_by_user(
+        db=db, user_create=user_create, user_id=current_user.id
+    )
     return user
 
 
@@ -68,11 +70,13 @@ def update_user(
     """
     指定したusernameのユーザー情報の更新
     """
-    user = crud.user.read_by_username(db=db, username=username)
-    if user is None:
+    db_obj = crud.user.read_by_username(db=db, username=username)
+    if db_obj is None:
         raise HTTPException(status_code=404, detail="User not found")
-    user = crud.user.update(db, user_update, user)
-    return user
+    db_obj = crud.user.update_by_user(
+        db=db, user_update=user_update, db_obj=db_obj, user_id=current_user.id
+    )
+    return db_obj
 
 
 @router.delete("/{username}", response_model=None)

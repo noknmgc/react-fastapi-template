@@ -22,10 +22,28 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         db.refresh(db_obj)
         return db_obj
 
+    def create_by_user(
+        self, db: Session, user_create: UserCreate, user_id: int
+    ) -> User:
+        user_create_dict = self.__hash_password(user_create)
+        db_obj = self.model(**user_create_dict, created_by=user_id)
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
+
     def update(self, db: Session, user_update: UserUpdate, db_obj: User) -> User:
         # userはpasswordをhashed passwordにするので、CRUDBaseのupdateはオーバーライド
         user_update_dict = self.__hash_password(user_update)
 
+        db_obj = super().update(db, db_obj, user_update_dict)
+        return db_obj
+
+    def update_by_user(
+        self, db: Session, user_update: UserUpdate, db_obj: User, user_id: int
+    ) -> User:
+        user_update_dict = self.__hash_password(user_update)
+        user_update_dict["updated_by"] = user_id
         db_obj = super().update(db, db_obj, user_update_dict)
         return db_obj
 
