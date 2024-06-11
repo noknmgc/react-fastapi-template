@@ -1,6 +1,6 @@
 from typing import Generator
 
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Path
 from jose import jwt
 from pydantic import ValidationError
 from sqlalchemy.orm import Session
@@ -48,3 +48,26 @@ def get_current_superuser(current_user: models.User = Depends(get_current_user))
             detail="権限が不十分です。",
         )
     return current_user
+
+
+def get_my_todo(
+    todo_id: int = Path(),
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+) -> models.Todo:
+    """
+    自分のTODOを取得する関数。
+    """
+    db_obj = crud.todo.read(db=db, id=todo_id)
+    if not db_obj:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Todo{todo_id}が存在しません。",
+        )
+
+    if not crud.todo.is_owner(db_obj=db_obj, user_id=current_user.id):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Todoを編集する権限がありません。",
+        )
+    return db_obj
