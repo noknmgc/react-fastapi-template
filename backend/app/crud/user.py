@@ -6,7 +6,7 @@ from app.models.user import User
 from app.schemas.user import UserCreate, UserUpdate
 
 from app.crud.base import CRUDBase
-from app.core.security import get_password_hash
+from app.core.security import get_password_hash, verify_password
 
 
 class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
@@ -28,6 +28,17 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
 
         db_obj = super().update(db, db_obj, user_update_dict)
         return db_obj
+
+    def authenticate(self, db: Session, username: str, password: str) -> Optional[User]:
+        user = self.read_by_username(db, username=username)
+        if not user:
+            return None
+        if not verify_password(password, user.hashed_password):
+            return None
+        return user
+
+    def is_superuser(self, user: User) -> bool:
+        return user.is_superuser
 
     def __hash_password(self, user_schema: UserCreate | UserUpdate) -> dict[str, Any]:
         user_dict: dict[str, Any] = {}

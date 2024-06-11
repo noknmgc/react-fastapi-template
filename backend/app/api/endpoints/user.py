@@ -1,14 +1,18 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from app import schemas, crud
-from app.api.deps import get_db
+from app import schemas, crud, models
+from app.api.deps import get_db, get_current_user, get_current_superuser
 
 router = APIRouter()
 
 
 @router.post("", response_model=schemas.UserResponse)
-def create_user(user_create: schemas.UserCreate, db: Session = Depends(get_db)):
+def create_user(
+    user_create: schemas.UserCreate,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_superuser),
+):
     """
     新規ユーザーの作成
     """
@@ -27,6 +31,7 @@ def read_users(
     db: Session = Depends(get_db),
     skip: int = 0,
     limit: int = 100,
+    current_user: models.User = Depends(get_current_user),
 ):
     """
     ユーザーの情報取得
@@ -36,7 +41,11 @@ def read_users(
 
 
 @router.get("/{username}", response_model=schemas.UserResponse)
-def read_user(username: str, db: Session = Depends(get_db)):
+def read_user(
+    username: str,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+):
     """
     指定したusernameのユーザー情報の取得
     """
@@ -51,7 +60,10 @@ def read_user(username: str, db: Session = Depends(get_db)):
 
 @router.put("/{username}", response_model=schemas.UserResponse)
 def update_user(
-    username: str, user_update: schemas.UserUpdate, db: Session = Depends(get_db)
+    username: str,
+    user_update: schemas.UserUpdate,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_superuser),
 ):
     """
     指定したusernameのユーザー情報の更新
@@ -64,7 +76,11 @@ def update_user(
 
 
 @router.delete("/{username}", response_model=None)
-def delete_user(username: str, db: Session = Depends(get_db)):
+def delete_user(
+    username: str,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_superuser),
+):
     """
     指定したusernameのユーザー削除
     """
