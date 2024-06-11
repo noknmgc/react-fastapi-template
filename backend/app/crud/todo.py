@@ -28,6 +28,7 @@ class CRUDTodo(CRUDBase[Todo, TodoCreate, MyTodoCreate]):
         todo_update_dict = todo_update.model_dump()
         todo_update_dict["updated_by"] = user_id
         db_obj = super().update(db=db, db_obj=db_obj, obj_in=todo_update_dict)
+        return db_obj
 
     def is_owner(self, db_obj: Todo, user_id: int) -> bool:
         return db_obj.owner_id == user_id

@@ -43,7 +43,7 @@ def update_my_todo(
     自分のTODOの更新
     """
     db_obj = crud.todo.read(db=db, id=todo_id)
-    if db_obj:
+    if not db_obj:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Todo{todo_id}が存在しません。",
@@ -71,7 +71,7 @@ def delete_my_todo(
     自分のTODOの削除
     """
     db_obj = crud.todo.read(db=db, id=todo_id)
-    if db_obj:
+    if not db_obj:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Todo{todo_id}が存在しません。",
