@@ -5,7 +5,7 @@ router = APIRouter()
 
 
 @router.get("/")
-def read_root():
+def redirect_docs():
     """
     docsへリダイレクト
     """
