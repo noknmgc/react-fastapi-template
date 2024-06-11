@@ -30,7 +30,7 @@ def get_current_user(
     except (jwt.JWTError, ValidationError):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="権限がありません。",
+            detail="資格情報が無効です。",
         )
     user = crud.user.read(db, id=token_data.sub)
     if not user:
