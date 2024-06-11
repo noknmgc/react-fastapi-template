@@ -6,7 +6,7 @@ from app.schemas.todo import TodoCreate, MyTodoCreate, TodoUpdate
 from app.crud.base import CRUDBase
 
 
-class CRUDTodo(CRUDBase[Todo, TodoCreate, MyTodoCreate]):
+class CRUDTodo(CRUDBase[Todo, TodoCreate, TodoUpdate]):
     def create_by_user(
         self, db: Session, todo_create: TodoCreate, user_id: int
     ) -> Todo:
