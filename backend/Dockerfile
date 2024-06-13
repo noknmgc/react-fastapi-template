@@ -1,9 +1,6 @@
-FROM python:3.12-alpine
+FROM python:3.12
 
 WORKDIR /app
-
-RUN apk update
-RUN apk add curl
 
 RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python && \
     cd /usr/local/bin && \
@@ -14,4 +11,4 @@ COPY ./pyproject.toml ./poetry.lock* /app/
 
 RUN poetry install --no-root
 
-CMD ["poetry", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--reload", "--port", "8000"]
+CMD ["poetry", "run", "python", "main.py"]
