@@ -11,7 +11,7 @@ HOME_DIR="$SCRIPT_DIR/.."
 # 定数の設定
 OPENAPI_URL="http://localhost:8000/openapi.json"
 OPENAPI_FILE="$HOME_DIR/openapi.json"
-OUTPUT_DIR="/frontend/src/api" # HOME_DIRからの相対パス。HOME_DIRより上位のパスは指定不可
+OUTPUT_DIR="/frontend/src/openapi" # HOME_DIRからの相対パス。HOME_DIRより上位のパスは指定不可
 GENERATOR="typescript-axios" # 生成するクライアントコードの言語を指定
 
 # OpenAPI JSONファイルを取得

@@ -14,7 +14,7 @@ set "OPENAPI_URL=http://localhost:8000/openapi.json"
 set "OPENAPI_FILE=%HOME_DIR%openapi.json"
 rem OUTPUT_DIRは、HOME_DIRからの相対パスを記述する
 rem ただしHOME_DIRより上位のディレクトリには出力できない
-set "OUTPUT_DIR=/frontend/src/api"
+set "OUTPUT_DIR=/frontend/src/openapi"
 set "GENERATOR=typescript-axios"
 
 rem OpenAPI JSONファイルを取得
