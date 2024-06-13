@@ -2,12 +2,12 @@ import { QueryClientProvider } from "@tanstack/react-query";
 
 import { queryClient } from "./common/api/react-query";
 import { useMyself } from "./common/api/useMyself";
-import { authApi } from "./common/api/clients";
+import Login from "./features/auth/components/Login";
 
 function App() {
-  authApi.loginCookie("test", "test");
   return (
     <QueryClientProvider client={queryClient}>
+      <Login />
       <Test />
     </QueryClientProvider>
   );
