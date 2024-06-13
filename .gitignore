@@ -1,2 +1,3 @@
 postgresql_data/
 ignore/
+openapi.json
