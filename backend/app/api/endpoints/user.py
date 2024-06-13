@@ -42,6 +42,16 @@ def read_users(
     return users
 
 
+@router.get("/me", response_model=schemas.UserResponse)
+def read_myself(
+    current_user: models.User = Depends(get_current_user),
+):
+    """
+    自分自身のユーザー情報取得
+    """
+    return current_user
+
+
 @router.get("/{username}", response_model=schemas.UserResponse)
 def read_user(
     username: str,
