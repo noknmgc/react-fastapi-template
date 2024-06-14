@@ -1,5 +1,5 @@
 import { Button } from "@/common/components/ui/Buttons";
-import { Input } from "@/common/components/ui/Inputs";
+import { LabeledInput } from "@/common/components/ui/Inputs";
 import { useAuth } from "@/common/hooks/useAuth";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -29,15 +29,23 @@ const Login: React.FC = () => {
       className="mx-auto max-w-screen-md space-y-4 rounded-lg p-4 pt-2"
       onSubmit={handleSubmit}
     >
-      <Input type="text" name="username" required />
-      <Input type="password" name="password" required />
-      <Button type="submit">Submit</Button>
-      <Button buttonStyle="secondary" type="submit">
-        Submit
-      </Button>
-      <Button buttonStyle="tertiary" type="submit">
-        Submit
-      </Button>
+      <LabeledInput
+        type="text"
+        id="username"
+        labelText="ユーザー名"
+        name="username"
+        required
+      />
+      <LabeledInput
+        type="password"
+        id="password"
+        labelText="パスワード"
+        name="password"
+        required
+      />
+      <div className="flex justify-center">
+        <Button type="submit">ログイン</Button>
+      </div>
     </form>
   );
 };
