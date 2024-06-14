@@ -2,6 +2,7 @@ import { useAuth } from "@/common/hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 
 import logo from "@/assets/react.svg";
+import { Button } from "../ui/Buttons";
 
 interface Props {
   children: React.ReactNode;
@@ -13,7 +14,7 @@ export const CommonLayout: React.FC<Props> = ({ children }) => {
   return (
     <>
       <header>
-        <nav className="bg-blue-800 py-3 text-gray-100">
+        <nav className="bg-primary py-3 text-gray-100">
           <div className="mx-auto flex max-w-screen-lg items-center justify-between">
             <Link className="flex items-center" to="/">
               <img src={logo} width={30} height={30} alt="logo" />
@@ -25,14 +26,16 @@ export const CommonLayout: React.FC<Props> = ({ children }) => {
               {!!user && (
                 <div className="flex items-center space-x-2">
                   <label>{user.username}:</label>
-                  <button
+                  <Button
+                    buttonStyle="tertiary"
+                    className="px-2 py-0 text-slate-50"
                     onClick={async () => {
                       await logout();
                       navigate("/login");
                     }}
                   >
                     ログアウト
-                  </button>
+                  </Button>
                 </div>
               )}
             </div>

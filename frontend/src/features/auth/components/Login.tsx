@@ -1,3 +1,5 @@
+import { Button } from "@/common/components/ui/Buttons";
+import { Input } from "@/common/components/ui/Inputs";
 import { useAuth } from "@/common/hooks/useAuth";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -24,12 +26,18 @@ const Login: React.FC = () => {
 
   return (
     <form
-      className="mx-auto max-w-screen-lg space-y-2 rounded-lg p-4 pt-2"
+      className="mx-auto max-w-screen-md space-y-4 rounded-lg p-4 pt-2"
       onSubmit={handleSubmit}
     >
-      <input type="text" name="username" required />
-      <input type="password" name="password" required />
-      <button type="submit">Submit</button>
+      <Input type="text" name="username" required />
+      <Input type="password" name="password" required />
+      <Button type="submit">Submit</Button>
+      <Button buttonStyle="secondary" type="submit">
+        Submit
+      </Button>
+      <Button buttonStyle="tertiary" type="submit">
+        Submit
+      </Button>
     </form>
   );
 };
