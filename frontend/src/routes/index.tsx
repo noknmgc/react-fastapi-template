@@ -11,6 +11,7 @@ import Todo from "@/features/todo/components/Todo";
 import Users from "@/features/user/components/Users";
 import Forbidden from "./errors/Forbidden";
 import NotFound from "./errors/NotFound";
+import { CommonLayout } from "@/common/components/layouts/CommonLayout";
 
 export const AppRouter: React.FC = () => {
   return <RouterProvider router={createRouter()} />;
@@ -19,12 +20,21 @@ export const AppRouter: React.FC = () => {
 const createRouter = () =>
   createBrowserRouter([
     { path: "/", element: <Navigate to="todos" /> },
-    { path: "/login", element: <Login /> },
+    {
+      path: "/login",
+      element: (
+        <CommonLayout>
+          <Login />
+        </CommonLayout>
+      ),
+    },
     {
       path: "/",
       element: (
         <ProtectedRoute redirectLogin>
-          <Outlet />
+          <CommonLayout>
+            <Outlet />
+          </CommonLayout>
         </ProtectedRoute>
       ),
       children: [
@@ -36,7 +46,9 @@ const createRouter = () =>
       path: "/",
       element: (
         <ProtectedRoute validate={(user) => user.is_superuser}>
-          <Outlet />
+          <CommonLayout>
+            <Outlet />
+          </CommonLayout>
         </ProtectedRoute>
       ),
       children: [{ path: "users", element: <Users /> }],
