@@ -20,10 +20,11 @@ export const CommonLayout: React.FC<Props> = ({ children }) => {
               <img src={logo} width={30} height={30} alt="logo" />
               <span className="ml-2 font-bold">React FastAPI Template</span>
             </Link>
-            <div className="flex items-center space-x-8">
-              <Link to="/todos">Todos</Link>
-              {!!user && user.is_superuser && <Link to="/users">Users</Link>}
-              {!!user && (
+            {!!user && (
+              <div className="flex items-center space-x-8">
+                <Link to="/todos">Todos</Link>
+                {user.is_superuser && <Link to="/users">Users</Link>}
+
                 <div className="flex items-center space-x-2">
                   <label>{user.username}:</label>
                   <Button
@@ -37,8 +38,8 @@ export const CommonLayout: React.FC<Props> = ({ children }) => {
                     ログアウト
                   </Button>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </nav>
       </header>
