@@ -7,8 +7,8 @@ export const Input: React.FC<BaseInputProps> = ({ className, ...props }) => {
     <input
       {...props}
       className={cn(
-        "block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900",
-        !props.disabled && "focus:outline-primary hover:border-gray-400",
+        "block w-full rounded-lg border border-slate-300 bg-white p-2.5 text-sm",
+        !props.disabled && "focus:outline-primary hover:border-primary",
       )}
     />
   );
