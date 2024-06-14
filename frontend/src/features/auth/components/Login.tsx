@@ -1,17 +1,19 @@
-import { useQueryClient } from "@tanstack/react-query";
-
-import { authApi } from "@/common/api/clients";
-import { myselfQueryOptions } from "@/common/api/useMyself";
+import { useAuth } from "@/common/hooks/useAuth";
+import { useEffect } from "react";
 
 const Login: React.FC = () => {
-  const queryClient = useQueryClient();
+  const { login, isLoggedIn } = useAuth();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      console.log("login");
+    }
+  }, [isLoggedIn]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
-    await authApi.loginCookie(form.username.value, form.password.value);
-    // myselfのキャッシュを無効化し、再検証させる
-    queryClient.invalidateQueries({ queryKey: myselfQueryOptions.queryKey });
+    await login(form.username.value, form.password.value);
   };
 
   return (
