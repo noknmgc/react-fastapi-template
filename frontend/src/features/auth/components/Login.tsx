@@ -1,12 +1,16 @@
 import { useAuth } from "@/common/hooks/useAuth";
 import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Login: React.FC = () => {
   const { login, isLoggedIn } = useAuth();
+  const { redirectTo } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isLoggedIn) {
-      console.log("login");
+      if (redirectTo) navigate(redirectTo);
+      else navigate("/todos");
     }
   }, [isLoggedIn]);
 
@@ -14,6 +18,8 @@ const Login: React.FC = () => {
     e.preventDefault();
     const form = e.currentTarget;
     await login(form.username.value, form.password.value);
+    if (redirectTo) navigate(redirectTo);
+    else navigate("/todos");
   };
 
   return (

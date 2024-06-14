@@ -6,7 +6,7 @@ import { myselfQueryOptions, useMyself } from "../api/useMyself";
 export const useAuth = () => {
   const queryClient = useQueryClient();
 
-  const { data: user } = useMyself();
+  const { data: user, isLoading } = useMyself();
 
   /** ログイン済みフラグ */
   const isLoggedIn = useMemo(() => user !== undefined, [user]);
@@ -33,5 +33,5 @@ export const useAuth = () => {
     });
   }, []);
 
-  return { login, logout, isLoggedIn, user };
+  return { login, logout, isLoggedIn, user, isLoading };
 };
