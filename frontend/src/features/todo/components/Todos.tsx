@@ -1,18 +1,22 @@
-import { Link } from "react-router-dom";
 import { useTodos } from "../api/useTodos";
+import { Button } from "@/common/components/ui/Buttons";
+import { useCreateTodo } from "../api/createTodo";
+import TodoCard from "./TodoCard";
 
 const Todos: React.FC = () => {
   const { data: todos } = useTodos();
+  const { mutate: createTodo } = useCreateTodo();
   return (
-    <>
-      <div>Todoマルチ画面</div>
-      {todos &&
-        todos.map((todo) => (
-          <Link to={`${todo.id}`} key={todo.id}>
-            {todo.name}
-          </Link>
-        ))}
-    </>
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {todos && todos.map((todo) => <TodoCard key={todo.id} todo={todo} />)}
+      <Button
+        onClick={() => {
+          createTodo({});
+        }}
+      >
+        +
+      </Button>
+    </div>
   );
 };
 
