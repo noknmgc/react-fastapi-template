@@ -14,7 +14,6 @@ const ProtectedRoute: React.FC<Props> = ({
   children,
 }) => {
   const { user, isLoading } = useAuth();
-  console.log("protected", user);
   const location = useLocation();
 
   if (isLoading) return <div>Loading...</div>;
