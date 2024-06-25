@@ -30,14 +30,12 @@ const Login: React.FC = () => {
     >
       <LabeledInput
         type="text"
-        id="username"
         labelText="ユーザー名"
         name="username"
         required
       />
       <LabeledInput
         type="password"
-        id="password"
         labelText="パスワード"
         name="password"
         required

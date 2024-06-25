@@ -1,3 +1,4 @@
+import { Field, Label } from "@headlessui/react";
 import { Input } from "./Input";
 
 interface LabelInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -6,17 +7,14 @@ interface LabelInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 export const LabeledInput: React.FC<LabelInputProps> = ({
   labelText,
-  id,
   ...props
 }) => {
   return (
-    <div>
+    <Field>
       {labelText && (
-        <label className="mb-2 block text-sm font-medium" htmlFor={id}>
-          {labelText}
-        </label>
+        <Label className="mb-2 block text-sm font-medium">{labelText}</Label>
       )}
-      <Input id={id} {...props} />
-    </div>
+      <Input {...props} />
+    </Field>
   );
 };
