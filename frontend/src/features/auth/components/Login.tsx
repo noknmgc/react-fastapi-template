@@ -1,5 +1,4 @@
-import { Button } from "@/common/components/ui/Buttons";
-import { LabeledInput } from "@/common/components/ui/Inputs";
+import { Button, LabeledInput } from "@/common/components/ui";
 import { useAuth } from "@/common/hooks/useAuth";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";

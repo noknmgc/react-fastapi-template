@@ -1,5 +1,5 @@
 import { useTodos } from "../api/useTodos";
-import { Button } from "@/common/components/ui/Buttons";
+import { Button } from "@/common/components/ui";
 import { useCreateTodo } from "../api/createTodo";
 import TodoCard from "./TodoCard";
 

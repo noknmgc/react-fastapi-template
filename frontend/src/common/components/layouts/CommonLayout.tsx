@@ -2,7 +2,7 @@ import { useAuth } from "@/common/hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 
 import logo from "@/assets/react.svg";
-import { Button } from "../ui/Buttons";
+import { Button } from "../ui";
 
 interface Props {
   children: React.ReactNode;
