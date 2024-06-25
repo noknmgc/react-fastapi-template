@@ -1,7 +1,11 @@
-import { Button as HeadlessButton } from "@headlessui/react";
+import {
+  Button as HeadlessButton,
+  ButtonProps as HeadlessButtonProps,
+} from "@headlessui/react";
 import { cn } from "@/common/utils/classname";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends HeadlessButtonProps {
+  className?: string;
   buttonStyle?: "primary" | "secondary" | "tertiary";
 }
 

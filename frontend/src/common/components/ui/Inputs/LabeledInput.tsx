@@ -1,7 +1,8 @@
-import { Field, Label } from "@headlessui/react";
+import { Field, Label, InputProps } from "@headlessui/react";
 import { Input } from "./Input";
 
-interface LabelInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface LabelInputProps extends InputProps {
+  className?: string;
   labelText?: string;
 }
 
