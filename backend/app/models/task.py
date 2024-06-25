@@ -27,7 +27,7 @@ class Task(Base, TimestampMixin):
 
     id = Column(Integer, primary_key=True, index=True)
     todo_id = Column(Integer, ForeignKey("todo.id", ondelete="CASCADE"))
-    name = Column(String(500), nullable=True)
+    name = Column(String(500), nullable=False, server_default="")
     done = Column(Boolean, default=False)
 
     todo = relationship(
