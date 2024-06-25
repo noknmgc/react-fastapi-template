@@ -7,7 +7,7 @@ const Todos: React.FC = () => {
   const { data: todos } = useTodos();
   const { mutate: createTodo } = useCreateTodo();
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       {todos && todos.map((todo) => <TodoCard key={todo.id} todo={todo} />)}
       <Button
         onClick={() => {
