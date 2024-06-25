@@ -1,6 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 import { cn } from "@/common/utils/classname";
 import { TodoResponse } from "@/openapi";
-import { useNavigate } from "react-router-dom";
 
 interface TodoCardProps {
   todo: TodoResponse;

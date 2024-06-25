@@ -1,7 +1,8 @@
-import { Button, LabeledInput } from "@/common/components/ui";
-import { useAuth } from "@/common/hooks/useAuth";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
+import { Button, LabeledInput } from "@/common/components/ui";
+import { useAuth } from "@/common/hooks/useAuth";
 
 const Login: React.FC = () => {
   const { login, isLoggedIn } = useAuth();
