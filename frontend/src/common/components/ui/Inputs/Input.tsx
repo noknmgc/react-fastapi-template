@@ -4,7 +4,7 @@ import {
 } from "@headlessui/react";
 import { cn } from "@/common/utils/classname";
 
-interface InputProps extends HeadlessInputProps {
+export interface InputProps extends HeadlessInputProps {
   className?: string;
 }
 
@@ -13,8 +13,9 @@ export const Input: React.FC<InputProps> = ({ className, ...props }) => {
     <HeadlessInput
       {...props}
       className={cn(
-        "block w-full rounded-lg border border-slate-300 bg-white p-2.5 text-sm",
-        !props.disabled && "hover:border-primary focus:outline-primary",
+        "block w-full rounded-lg bg-white p-2.5 text-sm",
+        !props.disabled &&
+          "border border-slate-300 hover:border-primary focus:outline-primary",
         className,
       )}
     />
