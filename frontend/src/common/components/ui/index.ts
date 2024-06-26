@@ -4,3 +4,4 @@ export * from "./Buttons/Button";
 export * from "./Inputs/Input";
 export * from "./Inputs/LabeledInput";
 export * from "./Inputs/Checkbox";
+export * from "./Inputs/DebounceInput";
