@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 
+import { Checkbox } from "@/common/components/ui";
 import { useTodo } from "../api/useTodo";
 
 const Todo: React.FC = () => {
@@ -8,7 +9,13 @@ const Todo: React.FC = () => {
   return (
     <>
       <div>Todoシングル画面</div>
-      {todo && todo.tasks.map((task) => <div key={task.id}>{task.name}</div>)}
+      {todo &&
+        todo.tasks.map((task) => (
+          <div key={task.id}>
+            {task.name} <Checkbox checked={task.done} onChange={() => {}} />
+          </div>
+        ))}
+      <Checkbox />
     </>
   );
 };
