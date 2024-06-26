@@ -14,6 +14,11 @@ export default {
           DEFAULT: "#FFB1B1",
           dark: "#cc7e7e",
         },
+        warn: {
+          light: "#ff6860",
+          DEFAULT: "#d23e3b",
+          dark: "#a60015",
+        },
       },
     },
   },
