@@ -31,6 +31,7 @@ class Todo(Base, TimestampMixin):
     tasks = relationship(
         "Task",
         back_populates="todo",
+        order_by="Task.id",
     )
 
     owner = relationship(

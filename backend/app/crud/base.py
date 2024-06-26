@@ -37,7 +37,9 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def read_multi(
         self, db: Session, skip: int = 0, limit: int = 100
     ) -> list[ModelType]:
-        return db.query(self.model).offset(skip).limit(limit).all()
+        return (
+            db.query(self.model).offset(skip).limit(limit).order_by(self.model.id).all()
+        )
 
     def update(
         self,
