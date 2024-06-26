@@ -14,7 +14,7 @@ const Todo: React.FC = () => {
   return (
     <>
       <DebouncedInput
-        className="mb-6"
+        className="mb-6 border-none bg-transparent text-2xl focus:bg-white"
         value={todo?.name ?? ""}
         placeholder="Todoタイトル"
         onDebounceChange={(newValue) => {}}
@@ -24,6 +24,7 @@ const Todo: React.FC = () => {
           {todo.tasks.map((task) => (
             <li key={task.id} className="flex items-center space-x-4">
               <DebouncedInput
+                className="bg-transparent focus:bg-white"
                 value={task.name ?? ""}
                 onDebounceChange={(newVaue) => {
                   updateTodoTask({
