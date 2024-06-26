@@ -21,7 +21,7 @@ class CRUDTask(CRUDBase[Task, TaskCreate, TaskUpdate]):
     def update_by_user(
         self, db: Session, task_update: TaskUpdate, db_obj: Task, user_id: int
     ) -> Task:
-        task_update_dict = task_update.model_dump()
+        task_update_dict = task_update.model_dump(exclude_unset=True)
         task_update_dict["updated_by"] = user_id
         db_obj = super().update(db=db, db_obj=db_obj, obj_in=task_update_dict)
         return db_obj
