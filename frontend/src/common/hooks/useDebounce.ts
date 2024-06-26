@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 /**
  * useDebounce - 値の変更を遅延させるカスタムフック
+ * 参考：https://zenn.dev/luvmini511/articles/4924cc4cf19bc9
  *
  * @param {T} value - デバウンス対象の値
  * @param {number} delay - デバウンスの遅延時間（ミリ秒）

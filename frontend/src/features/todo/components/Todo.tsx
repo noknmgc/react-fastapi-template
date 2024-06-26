@@ -13,37 +13,47 @@ const Todo: React.FC = () => {
 
   return (
     <>
-      <div>Todoシングル画面</div>
-      {todo &&
-        todo.tasks.map((task) => (
-          <div key={task.id}>
-            <DebouncedInput
-              value={task.name ?? ""}
-              onDebounceChange={(newVaue) => {
-                updateTodoTask({
-                  taskId: task.id,
-                  taskUpdate: { name: newVaue },
-                });
+      <DebouncedInput
+        className="mb-6"
+        value={todo?.name ?? ""}
+        placeholder="Todoタイトル"
+        onDebounceChange={(newValue) => {}}
+      />
+      {todo && (
+        <ul className="space-y-4">
+          {todo.tasks.map((task) => (
+            <li key={task.id} className="flex items-center space-x-4">
+              <DebouncedInput
+                value={task.name ?? ""}
+                onDebounceChange={(newVaue) => {
+                  updateTodoTask({
+                    taskId: task.id,
+                    taskUpdate: { name: newVaue },
+                  });
+                }}
+              />
+              <Checkbox
+                checked={task.done}
+                onChange={() => {
+                  updateTodoTask({
+                    taskId: task.id,
+                    taskUpdate: { done: !task.done },
+                  });
+                }}
+              />
+            </li>
+          ))}
+          <li className="flex items-center justify-center">
+            <Button
+              onClick={() => {
+                createTodoTask({});
               }}
-            />
-            <Checkbox
-              checked={task.done}
-              onChange={() => {
-                updateTodoTask({
-                  taskId: task.id,
-                  taskUpdate: { done: !task.done },
-                });
-              }}
-            />
-          </div>
-        ))}
-      <Button
-        onClick={() => {
-          createTodoTask({});
-        }}
-      >
-        +
-      </Button>
+            >
+              +
+            </Button>
+          </li>
+        </ul>
+      )}
     </>
   );
 };
