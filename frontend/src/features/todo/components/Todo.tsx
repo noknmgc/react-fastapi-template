@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { PlusIcon } from "@heroicons/react/24/solid";
 
 import { Button, Checkbox, DebouncedInput } from "@/common/components/ui";
 import { useTodo } from "../api/useTodo";
@@ -50,7 +51,7 @@ const Todo: React.FC = () => {
                 createTodoTask({});
               }}
             >
-              +
+              <PlusIcon className="stroke size-4 fill-current stroke-current" />
             </Button>
           </li>
         </ul>

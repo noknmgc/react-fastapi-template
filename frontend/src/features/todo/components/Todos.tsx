@@ -1,3 +1,4 @@
+import { PlusIcon } from "@heroicons/react/24/solid";
 import { Button } from "@/common/components/ui";
 
 import { useTodos } from "../api/useTodos";
@@ -15,7 +16,7 @@ const Todos: React.FC = () => {
           createTodo({});
         }}
       >
-        +
+        <PlusIcon className="stroke inline-block size-4 fill-current stroke-current" />
       </Button>
     </div>
   );
