@@ -38,7 +38,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         self, db: Session, skip: int = 0, limit: int = 100
     ) -> list[ModelType]:
         return (
-            db.query(self.model).offset(skip).limit(limit).order_by(self.model.id).all()
+            db.query(self.model).order_by(self.model.id).offset(skip).limit(limit).all()
         )
 
     def update(
