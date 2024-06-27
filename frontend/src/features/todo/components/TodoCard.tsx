@@ -5,7 +5,7 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline";
 
-import { Button, DebouncedInput } from "@/common/components/ui";
+import { Button, DebouncedInput, Loading } from "@/common/components/ui";
 import { TodoResponse } from "@/openapi";
 import { useDialogStore } from "@/stores/dialog";
 import { useUpdateTodo } from "../api/updateTodo";
@@ -17,10 +17,10 @@ interface TodoCardProps {
 
 const TodoCard: React.FC<TodoCardProps> = ({ todo }) => {
   const { mutate: updateTodo } = useUpdateTodo();
-  const { mutate: deleteTodo } = useDeleteTodo();
+  const { mutate: deleteTodo, isPending: isPendingDelete } = useDeleteTodo();
   const navigate = useNavigate();
   const navigateTodo = () => {
-    navigate(`/todos/${todo.id}`);
+    if (!isPendingDelete) navigate(`/todos/${todo.id}`);
   };
 
   const openConfirmDialog = useDialogStore.use.openConfirmDialog();
@@ -54,31 +54,43 @@ const TodoCard: React.FC<TodoCardProps> = ({ todo }) => {
       }}
       className="block w-full rounded-lg border-2 border-primary p-2"
     >
-      <div className="flex items-center space-x-4">
-        <DebouncedInput
-          className="border-none bg-transparent text-xl font-bold focus:bg-white"
-          value={todo.name}
-          placeholder="名称なし"
-          onDebounceChange={(newValue) => {
-            updateTodo({ todoId: todo.id, todoUpdate: { name: newValue } });
-          }}
-        />
-        <Button
-          className="p-2"
-          onClick={() => {
-            navigateTodo();
-          }}
-        >
-          <ArrowTopRightOnSquareIcon className="size-4 stroke-current" />
-        </Button>
-        <Button buttonStyle="tertiary" className="p-2" onClick={handleDelete}>
-          <TrashIcon className="size-4 stroke-current stroke-2" />
-        </Button>
-      </div>
-      <div className="ml-2 mt-4 flex items-center space-x-4 text-sm text-slate-500">
-        <span>未完了タスク：{incompleted.length}件</span>
-        <span>完了タスク：{completed.length}件</span>
-      </div>
+      {isPendingDelete ? (
+        <Loading className="relative top-[50%] -translate-y-[50%]" />
+      ) : (
+        <>
+          <div className="flex items-center space-x-4">
+            <DebouncedInput
+              className="border-none bg-transparent text-xl font-bold focus:bg-white"
+              value={todo.name}
+              placeholder="名称なし"
+              onDebounceChange={(newValue) => {
+                updateTodo({ todoId: todo.id, todoUpdate: { name: newValue } });
+              }}
+            />
+            <Button
+              className="p-2"
+              onClick={() => {
+                navigateTodo();
+              }}
+            >
+              <ArrowTopRightOnSquareIcon className="size-4 stroke-current" />
+            </Button>
+            <Button
+              buttonStyle="tertiary"
+              className="p-2"
+              onClick={handleDelete}
+              disabled={isPendingDelete}
+            >
+              <TrashIcon className="size-4 stroke-current stroke-2" />
+            </Button>
+          </div>
+
+          <div className="ml-2 mt-4 flex items-center space-x-4 text-sm text-slate-500">
+            <span>未完了タスク：{incompleted.length}件</span>
+            <span>完了タスク：{completed.length}件</span>
+          </div>
+        </>
+      )}
     </div>
   );
 };
