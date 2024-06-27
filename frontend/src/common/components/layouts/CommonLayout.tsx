@@ -16,9 +16,11 @@ export const CommonLayout: React.FC<Props> = ({ children }) => {
       <header>
         <nav className="bg-primary py-3 text-gray-100">
           <div className="mx-auto flex max-w-screen-lg items-center justify-between">
-            <Link className="flex items-center" to="/">
+            <Link className="ml-2 flex items-center" to="/">
               <img src={logo} width={30} height={30} alt="logo" />
-              <span className="ml-2 font-bold">React FastAPI Template</span>
+              <span className="ml-2 hidden font-bold lg:inline">
+                React FastAPI Template
+              </span>
             </Link>
             {!!user && (
               <div className="flex items-center space-x-8">
@@ -35,7 +37,7 @@ export const CommonLayout: React.FC<Props> = ({ children }) => {
                       navigate("/login");
                     }}
                   >
-                    ログアウト
+                    <span className="block whitespace-nowrap">ログアウト</span>
                   </Button>
                 </div>
               </div>
@@ -43,7 +45,7 @@ export const CommonLayout: React.FC<Props> = ({ children }) => {
           </div>
         </nav>
       </header>
-      <div className="mx-auto mt-8 max-w-screen-lg">{children}</div>
+      <div className="mx-auto mt-8 max-w-screen-lg px-4">{children}</div>
     </>
   );
 };
