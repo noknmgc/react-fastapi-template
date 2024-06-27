@@ -25,7 +25,7 @@ const Todo: React.FC = () => {
   return (
     <>
       <DebouncedInput
-        className="mb-6 border-none bg-transparent text-2xl focus:bg-white"
+        className="mb-6 border-none bg-transparent text-2xl font-bold focus:bg-white"
         value={todo.name}
         placeholder="Todoタイトル"
         onDebounceChange={(newValue) => {
