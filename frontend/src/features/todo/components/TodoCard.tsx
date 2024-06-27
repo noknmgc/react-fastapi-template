@@ -8,6 +8,7 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { useUpdateTodo } from "../api/updateTodo";
+import { useDeleteTodo } from "../api/deleteTodo";
 
 interface TodoCardProps {
   todo: TodoResponse;
@@ -15,6 +16,7 @@ interface TodoCardProps {
 
 const TodoCard: React.FC<TodoCardProps> = ({ todo }) => {
   const { mutate: updateTodo } = useUpdateTodo(todo.id);
+  const { mutate: deleteTodo } = useDeleteTodo();
   const navigate = useNavigate();
   const navigateTodo = () => {
     navigate(`/todos/${todo.id}`);
@@ -51,7 +53,13 @@ const TodoCard: React.FC<TodoCardProps> = ({ todo }) => {
         >
           <ArrowTopRightOnSquareIcon className="size-4 stroke-current" />
         </Button>
-        <Button buttonStyle="tertiary" className="p-2" onClick={() => {}}>
+        <Button
+          buttonStyle="tertiary"
+          className="p-2"
+          onClick={() => {
+            deleteTodo(todo.id);
+          }}
+        >
           <TrashIcon className="size-4 stroke-current stroke-2" />
         </Button>
       </div>
