@@ -1,6 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { UserResponse } from "@/openapi";
 import { useAuth } from "@/common/hooks/useAuth";
+import { Loading } from "@/common/components/ui";
 
 interface Props {
   validate?: (user: UserResponse) => boolean;
@@ -16,7 +17,7 @@ const ProtectedRoute: React.FC<Props> = ({
   const { user, isLoading } = useAuth();
   const location = useLocation();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading size="lg" className="mt-10" />;
 
   if (user === undefined || !validate(user))
     return (

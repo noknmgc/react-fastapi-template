@@ -1,4 +1,4 @@
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
 import { todosApi } from "@/common/api/clients";
 import { getTodosQueryOptions } from "./useTodos";
@@ -13,5 +13,5 @@ export const getTodoQueryOptions = (todoId: number) =>
   });
 
 export const useTodo = (todoId: number) => {
-  return useQuery({ ...getTodoQueryOptions(todoId) });
+  return useSuspenseQuery({ ...getTodoQueryOptions(todoId) });
 };

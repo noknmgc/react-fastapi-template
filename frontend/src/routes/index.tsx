@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import {
   Navigate,
   Outlet,
@@ -14,6 +15,7 @@ import Users from "@/features/user/components/Users";
 import ProtectedRoute from "./ProtectedRoute";
 import Forbidden from "./errors/Forbidden";
 import NotFound from "./errors/NotFound";
+import { Loading } from "@/common/components/ui";
 
 export const AppRouter: React.FC = () => {
   return <RouterProvider router={createRouter()} />;
@@ -27,6 +29,9 @@ const createRouter = () =>
       element: (
         <CommonLayout>
           <Login />
+          <Loading size="sm" />
+          <Loading size="md" />
+          <Loading size="lg" />
         </CommonLayout>
       ),
     },
@@ -35,7 +40,9 @@ const createRouter = () =>
       element: (
         <ProtectedRoute redirectLogin>
           <CommonLayout>
-            <Outlet />
+            <Suspense fallback={<Loading size="lg" />}>
+              <Outlet />
+            </Suspense>
           </CommonLayout>
         </ProtectedRoute>
       ),

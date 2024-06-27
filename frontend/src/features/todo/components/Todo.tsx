@@ -15,15 +15,13 @@ import { useUpdateTodo } from "../api/updateTodo";
 const Todo: React.FC = () => {
   const { todoId } = useParams();
   const todoIdNum = parseInt(todoId ?? "");
-  const { data: todo, isLoading } = useTodo(todoIdNum);
+  const { data: todo } = useTodo(todoIdNum);
   const { mutate: updateTodo } = useUpdateTodo();
   const { mutate: createTodoTask } = useCreateTodoTask();
   const { mutate: updateTodoTask } = useUpdateTodoTask();
   const { mutate: deleteTodoTask } = useDeleteTodoTask();
 
   const openConfirmDialog = useDialogStore.use.openConfirmDialog();
-
-  if (isLoading) return <span>Loading</span>;
 
   if (!todo) return null;
 
