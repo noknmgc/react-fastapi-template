@@ -20,7 +20,7 @@ export const DebouncedInput: React.FC<DebouncedInputProps> = ({
   }, [value]);
 
   useEffect(() => {
-    onDebounceChange(debouncedText);
+    if (value !== text) onDebounceChange(debouncedText);
   }, [debouncedText]);
 
   return (

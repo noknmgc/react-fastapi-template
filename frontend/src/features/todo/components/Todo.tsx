@@ -38,11 +38,10 @@ const Todo: React.FC = () => {
               className="bg-transparent focus:bg-white"
               value={task.name ?? ""}
               onDebounceChange={(newVaue) => {
-                if (!isLoading)
-                  updateTodoTask({
-                    taskId: task.id,
-                    taskUpdate: { name: newVaue },
-                  });
+                updateTodoTask({
+                  taskId: task.id,
+                  taskUpdate: { name: newVaue },
+                });
               }}
             />
             <Checkbox
