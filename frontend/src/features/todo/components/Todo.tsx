@@ -39,7 +39,8 @@ const Todo: React.FC = () => {
             <DebouncedInput
               className={cn(
                 "bg-transparent focus:bg-white",
-                task.done && "border-none line-through",
+                task.done &&
+                  "border-transparent line-through hover:border-transparent",
               )}
               value={task.name ?? ""}
               onDebounceChange={(newVaue) => {
