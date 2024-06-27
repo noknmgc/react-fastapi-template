@@ -4,19 +4,25 @@ import { todoTasksApi } from "@/common/api/clients";
 import { TaskCreate } from "@/openapi";
 import { getTodoQueryOptions } from "./useTodo";
 
-const createTodoTask = (todoId: number, taskCreate: TaskCreate) => {
+const createTodoTask = ({
+  todoId,
+  taskCreate,
+}: {
+  todoId: number;
+  taskCreate: TaskCreate;
+}) => {
   return todoTasksApi.createTask(todoId, taskCreate).then((r) => r.data);
 };
 
-export const useCreateTodoTask = (todoId: number) => {
+export const useCreateTodoTask = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    onSuccess: () => {
+    onSuccess: (_data, { todoId }, _context) => {
       queryClient.invalidateQueries({
         queryKey: getTodoQueryOptions(todoId).queryKey,
       });
     },
-    mutationFn: (taskCreate: TaskCreate) => createTodoTask(todoId, taskCreate),
+    mutationFn: createTodoTask,
   });
 };

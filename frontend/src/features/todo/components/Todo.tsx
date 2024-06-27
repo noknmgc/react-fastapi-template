@@ -11,11 +11,12 @@ import { useUpdateTodo } from "../api/updateTodo";
 
 const Todo: React.FC = () => {
   const { todoId } = useParams();
-  const { data: todo, isLoading } = useTodo(parseInt(todoId ?? ""));
-  const { mutate: updateTodo } = useUpdateTodo(parseInt(todoId ?? ""));
-  const { mutate: createTodoTask } = useCreateTodoTask(parseInt(todoId ?? ""));
-  const { mutate: updateTodoTask } = useUpdateTodoTask(parseInt(todoId ?? ""));
-  const { mutate: deleteTodoTask } = useDeleteTodoTask(parseInt(todoId ?? ""));
+  const todoIdNum = parseInt(todoId ?? "");
+  const { data: todo, isLoading } = useTodo(todoIdNum);
+  const { mutate: updateTodo } = useUpdateTodo();
+  const { mutate: createTodoTask } = useCreateTodoTask();
+  const { mutate: updateTodoTask } = useUpdateTodoTask();
+  const { mutate: deleteTodoTask } = useDeleteTodoTask();
 
   if (isLoading) return <span>Loading</span>;
 
@@ -28,7 +29,7 @@ const Todo: React.FC = () => {
         value={todo.name}
         placeholder="Todoタイトル"
         onDebounceChange={(newValue) => {
-          updateTodo({ name: newValue });
+          updateTodo({ todoId: todoIdNum, todoUpdate: { name: newValue } });
         }}
       />
       <ul className="space-y-4">
@@ -39,6 +40,7 @@ const Todo: React.FC = () => {
               value={task.name ?? ""}
               onDebounceChange={(newVaue) => {
                 updateTodoTask({
+                  todoId: todoIdNum,
                   taskId: task.id,
                   taskUpdate: { name: newVaue },
                 });
@@ -48,6 +50,7 @@ const Todo: React.FC = () => {
               checked={task.done}
               onChange={() => {
                 updateTodoTask({
+                  todoId: todoIdNum,
                   taskId: task.id,
                   taskUpdate: { done: !task.done },
                 });
@@ -57,7 +60,7 @@ const Todo: React.FC = () => {
               buttonStyle="tertiary"
               className="p-2"
               onClick={() => {
-                deleteTodoTask(task.id);
+                deleteTodoTask({ todoId: todoIdNum, taskId: task.id });
               }}
             >
               <TrashIcon className="size-4 stroke-current stroke-2" />
@@ -67,7 +70,7 @@ const Todo: React.FC = () => {
         <li className="flex items-center justify-center">
           <Button
             onClick={() => {
-              createTodoTask({});
+              createTodoTask({ todoId: todoIdNum, taskCreate: {} });
             }}
           >
             <PlusIcon className="stroke size-4 fill-current stroke-current" />

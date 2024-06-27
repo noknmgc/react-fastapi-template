@@ -15,7 +15,7 @@ interface TodoCardProps {
 }
 
 const TodoCard: React.FC<TodoCardProps> = ({ todo }) => {
-  const { mutate: updateTodo } = useUpdateTodo(todo.id);
+  const { mutate: updateTodo } = useUpdateTodo();
   const { mutate: deleteTodo } = useDeleteTodo();
   const navigate = useNavigate();
   const navigateTodo = () => {
@@ -42,7 +42,7 @@ const TodoCard: React.FC<TodoCardProps> = ({ todo }) => {
           value={todo.name}
           placeholder="名称なし"
           onDebounceChange={(newValue) => {
-            updateTodo({ name: newValue });
+            updateTodo({ todoId: todo.id, todoUpdate: { name: newValue } });
           }}
         />
         <Button
