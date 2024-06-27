@@ -54,7 +54,7 @@ const Todo: React.FC = () => {
               }}
             />
             <Button
-              buttonStyle="warn"
+              buttonStyle="tertiary"
               className="p-2"
               onClick={() => {
                 deleteTodoTask(task.id);

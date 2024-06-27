@@ -9,14 +9,15 @@ const Todos: React.FC = () => {
   const { data: todos } = useTodos();
   const { mutate: createTodo } = useCreateTodo();
   return (
-    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+    <div className="grid auto-rows-fr grid-cols-1 gap-4 lg:grid-cols-2">
       {todos && todos.map((todo) => <TodoCard key={todo.id} todo={todo} />)}
       <Button
+        buttonStyle="secondary"
         onClick={() => {
           createTodo({});
         }}
       >
-        <PlusIcon className="stroke inline-block size-4 fill-current stroke-current" />
+        <PlusIcon className="inline-block size-10 fill-current" />
       </Button>
     </div>
   );

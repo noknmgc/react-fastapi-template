@@ -51,7 +51,7 @@ const TodoCard: React.FC<TodoCardProps> = ({ todo }) => {
         >
           <ArrowTopRightOnSquareIcon className="size-4 stroke-current" />
         </Button>
-        <Button buttonStyle="warn" className="p-2" onClick={() => {}}>
+        <Button buttonStyle="tertiary" className="p-2" onClick={() => {}}>
           <TrashIcon className="size-4 stroke-current stroke-2" />
         </Button>
       </div>
