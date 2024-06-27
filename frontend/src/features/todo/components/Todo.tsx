@@ -8,6 +8,7 @@ import { useCreateTodoTask } from "../api/createTodoTask";
 import { useUpdateTodoTask } from "../api/updateTodoTask";
 import { useDeleteTodoTask } from "../api/deleteTodoTask";
 import { useUpdateTodo } from "../api/updateTodo";
+import { cn } from "@/common/utils/classname";
 
 const Todo: React.FC = () => {
   const { todoId } = useParams();
@@ -36,7 +37,10 @@ const Todo: React.FC = () => {
         {todo.tasks.map((task) => (
           <li key={task.id} className="flex items-center space-x-4">
             <DebouncedInput
-              className="bg-transparent focus:bg-white"
+              className={cn(
+                "bg-transparent focus:bg-white",
+                task.done && "border-none line-through",
+              )}
               value={task.name ?? ""}
               onDebounceChange={(newVaue) => {
                 updateTodoTask({
