@@ -4,7 +4,7 @@ import { todosApi } from "@/common/api/clients";
 import { MyTodoCreate } from "@/openapi";
 
 const createMyTodo = (myTodoCreate: MyTodoCreate) =>
-  todosApi.createMyTodo(myTodoCreate);
+  todosApi.createMyTodo(myTodoCreate).then((r) => r.data);
 
 export const useCreateTodo = () => {
   const queryClient = useQueryClient();
