@@ -7,67 +7,74 @@ import { useTodo } from "../api/useTodo";
 import { useCreateTodoTask } from "../api/createTodoTask";
 import { useUpdateTodoTask } from "../api/updateTodoTask";
 import { useDeleteTodoTask } from "../api/deleteTodoTask";
+import { useUpdateTodo } from "../api/updateTodo";
 
 const Todo: React.FC = () => {
   const { todoId } = useParams();
-  const { data: todo } = useTodo(parseInt(todoId ?? ""));
+  const { data: todo, isLoading } = useTodo(parseInt(todoId ?? ""));
+  const { mutate: updateTodo } = useUpdateTodo(parseInt(todoId ?? ""));
   const { mutate: createTodoTask } = useCreateTodoTask(parseInt(todoId ?? ""));
   const { mutate: updateTodoTask } = useUpdateTodoTask(parseInt(todoId ?? ""));
   const { mutate: deleteTodoTask } = useDeleteTodoTask(parseInt(todoId ?? ""));
+
+  if (isLoading) return <span>Loading</span>;
+
+  if (!todo) return null;
 
   return (
     <>
       <DebouncedInput
         className="mb-6 border-none bg-transparent text-2xl focus:bg-white"
-        value={todo?.name ?? ""}
+        value={todo.name}
         placeholder="Todoタイトル"
-        onDebounceChange={(newValue) => {}}
+        onDebounceChange={(newValue) => {
+          updateTodo({ name: newValue });
+        }}
       />
-      {todo && (
-        <ul className="space-y-4">
-          {todo.tasks.map((task) => (
-            <li key={task.id} className="flex items-center space-x-4">
-              <DebouncedInput
-                className="bg-transparent focus:bg-white"
-                value={task.name ?? ""}
-                onDebounceChange={(newVaue) => {
+      <ul className="space-y-4">
+        {todo.tasks.map((task) => (
+          <li key={task.id} className="flex items-center space-x-4">
+            <DebouncedInput
+              className="bg-transparent focus:bg-white"
+              value={task.name ?? ""}
+              onDebounceChange={(newVaue) => {
+                if (!isLoading)
                   updateTodoTask({
                     taskId: task.id,
                     taskUpdate: { name: newVaue },
                   });
-                }}
-              />
-              <Checkbox
-                checked={task.done}
-                onChange={() => {
-                  updateTodoTask({
-                    taskId: task.id,
-                    taskUpdate: { done: !task.done },
-                  });
-                }}
-              />
-              <Button
-                buttonStyle="warn"
-                className="p-2"
-                onClick={() => {
-                  deleteTodoTask(task.id);
-                }}
-              >
-                <TrashIcon className="size-4 stroke-current stroke-2" />
-              </Button>
-            </li>
-          ))}
-          <li className="flex items-center justify-center">
+              }}
+            />
+            <Checkbox
+              checked={task.done}
+              onChange={() => {
+                updateTodoTask({
+                  taskId: task.id,
+                  taskUpdate: { done: !task.done },
+                });
+              }}
+            />
             <Button
+              buttonStyle="warn"
+              className="p-2"
               onClick={() => {
-                createTodoTask({});
+                deleteTodoTask(task.id);
               }}
             >
-              <PlusIcon className="stroke size-4 fill-current stroke-current" />
+              <TrashIcon className="size-4 stroke-current stroke-2" />
             </Button>
           </li>
-        </ul>
-      )}
+        ))}
+        <li className="flex items-center justify-center">
+          <Button
+            onClick={() => {
+              createTodoTask({});
+            }}
+          >
+            <PlusIcon className="stroke size-4 fill-current stroke-current" />
+          </Button>
+        </li>
+      </ul>
     </>
   );
 };
