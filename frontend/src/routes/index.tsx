@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 
 import { CommonLayout } from "@/common/components/layouts";
+import { Loading } from "@/common/components/ui";
 
 import Login from "@/features/auth/components/Login";
 import Todos from "@/features/todo/components/Todos";
@@ -15,7 +16,6 @@ import Users from "@/features/user/components/Users";
 import ProtectedRoute from "./ProtectedRoute";
 import Forbidden from "./errors/Forbidden";
 import NotFound from "./errors/NotFound";
-import { Loading } from "@/common/components/ui";
 
 export const AppRouter: React.FC = () => {
   return <RouterProvider router={createRouter()} />;
@@ -29,9 +29,6 @@ const createRouter = () =>
       element: (
         <CommonLayout>
           <Login />
-          <Loading size="sm" />
-          <Loading size="md" />
-          <Loading size="lg" />
         </CommonLayout>
       ),
     },
