@@ -4,14 +4,16 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
+
+import { CommonLayout } from "@/common/components/layouts";
+
 import Login from "@/features/auth/components/Login";
-import ProtectedRoute from "./ProtectedRoute";
 import Todos from "@/features/todo/components/Todos";
 import Todo from "@/features/todo/components/Todo";
 import Users from "@/features/user/components/Users";
+import ProtectedRoute from "./ProtectedRoute";
 import Forbidden from "./errors/Forbidden";
 import NotFound from "./errors/NotFound";
-import { CommonLayout } from "@/common/components/layouts/CommonLayout";
 
 export const AppRouter: React.FC = () => {
   return <RouterProvider router={createRouter()} />;

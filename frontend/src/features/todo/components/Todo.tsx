@@ -3,12 +3,12 @@ import { PlusIcon } from "@heroicons/react/24/solid";
 import { TrashIcon } from "@heroicons/react/24/outline";
 
 import { Button, Checkbox, DebouncedInput } from "@/common/components/ui";
+import { cn } from "@/common/utils/classname";
 import { useTodo } from "../api/useTodo";
 import { useCreateTodoTask } from "../api/createTodoTask";
 import { useUpdateTodoTask } from "../api/updateTodoTask";
 import { useDeleteTodoTask } from "../api/deleteTodoTask";
 import { useUpdateTodo } from "../api/updateTodo";
-import { cn } from "@/common/utils/classname";
 
 const Todo: React.FC = () => {
   const { todoId } = useParams();
