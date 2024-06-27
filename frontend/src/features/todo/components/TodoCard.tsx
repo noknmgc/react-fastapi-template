@@ -7,6 +7,7 @@ import {
 
 import { Button, DebouncedInput } from "@/common/components/ui";
 import { TodoResponse } from "@/openapi";
+import { useDialogStore } from "@/stores/dialog";
 import { useUpdateTodo } from "../api/updateTodo";
 import { useDeleteTodo } from "../api/deleteTodo";
 
@@ -22,12 +23,29 @@ const TodoCard: React.FC<TodoCardProps> = ({ todo }) => {
     navigate(`/todos/${todo.id}`);
   };
 
+  const openConfirmDialog = useDialogStore.use.openConfirmDialog();
+
   const [completed, incompleted] = useMemo(() => {
     return [
       todo.tasks.filter((t) => t.done),
       todo.tasks.filter((t) => !t.done),
     ];
   }, [todo.tasks]);
+
+  const handleDelete = () => {
+    if (incompleted.length === 0) deleteTodo(todo.id);
+    else {
+      openConfirmDialog({
+        title: "TODOの削除",
+        description: "まだ完了していないタスクがあります。本当に削除しますか？",
+        isWarning: true,
+        onConfirm: () => {
+          deleteTodo(todo.id);
+        },
+        customText: { confirm: "削除" },
+      });
+    }
+  };
 
   return (
     <div
@@ -53,13 +71,7 @@ const TodoCard: React.FC<TodoCardProps> = ({ todo }) => {
         >
           <ArrowTopRightOnSquareIcon className="size-4 stroke-current" />
         </Button>
-        <Button
-          buttonStyle="tertiary"
-          className="p-2"
-          onClick={() => {
-            deleteTodo(todo.id);
-          }}
-        >
+        <Button buttonStyle="tertiary" className="p-2" onClick={handleDelete}>
           <TrashIcon className="size-4 stroke-current stroke-2" />
         </Button>
       </div>

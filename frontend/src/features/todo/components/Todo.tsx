@@ -4,6 +4,8 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 
 import { Button, Checkbox, DebouncedInput } from "@/common/components/ui";
 import { cn } from "@/common/utils/classname";
+import { TaskResponse } from "@/openapi";
+import { useDialogStore } from "@/stores/dialog";
 import { useTodo } from "../api/useTodo";
 import { useCreateTodoTask } from "../api/createTodoTask";
 import { useUpdateTodoTask } from "../api/updateTodoTask";
@@ -19,9 +21,27 @@ const Todo: React.FC = () => {
   const { mutate: updateTodoTask } = useUpdateTodoTask();
   const { mutate: deleteTodoTask } = useDeleteTodoTask();
 
+  const openConfirmDialog = useDialogStore.use.openConfirmDialog();
+
   if (isLoading) return <span>Loading</span>;
 
   if (!todo) return null;
+
+  const handleDelete = (task: TaskResponse) => {
+    if (task.done || task.name === "")
+      deleteTodoTask({ todoId: todoIdNum, taskId: task.id });
+    else {
+      openConfirmDialog({
+        title: "タスク削除",
+        description: `「${task.name}」は、完了していません。本当に削除しますか？`,
+        isWarning: true,
+        onConfirm: () => {
+          deleteTodoTask({ todoId: todoIdNum, taskId: task.id });
+        },
+        customText: { confirm: "削除" },
+      });
+    }
+  };
 
   return (
     <>
@@ -65,7 +85,7 @@ const Todo: React.FC = () => {
               buttonStyle="tertiary"
               className="p-2"
               onClick={() => {
-                deleteTodoTask({ todoId: todoIdNum, taskId: task.id });
+                handleDelete(task);
               }}
             >
               <TrashIcon className="size-4 stroke-current stroke-2" />
