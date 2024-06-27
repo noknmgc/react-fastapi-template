@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { todoTasksApi } from "@/common/api/clients";
 import { TaskUpdate, TodoResponse } from "@/openapi";
 import { getTodoQueryOptions } from "./useTodo";
+import { getTodosQueryOptions } from "./useTodos";
 
 const updateTodoTask = ({
   taskId,
@@ -23,6 +24,9 @@ export const useUpdateTodoTask = () => {
 
   return useMutation({
     onSuccess: (_data, { todoId }) => {
+      queryClient.invalidateQueries({
+        queryKey: getTodosQueryOptions().queryKey,
+      });
       queryClient.invalidateQueries({
         queryKey: getTodoQueryOptions(todoId).queryKey,
       });
