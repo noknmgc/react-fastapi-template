@@ -5,9 +5,12 @@ import { useUsers } from "../api/useUsers";
 import { Button } from "@/common/components/ui";
 import { useDialogStore } from "@/stores/dialog";
 import UserEditorDialog from "./UserEditorDialog";
+import { useDeleteUser } from "../api/deleteUser";
 
 const Users: React.FC = () => {
   const { data: users } = useUsers();
+  const { mutate: deleteUser } = useDeleteUser();
+  const openConfirmDialog = useDialogStore.use.openConfirmDialog();
   const openCustomDialog = useDialogStore.use.openCustomDialog();
   const columns: { value: keyof UserResponse; label: string }[] = [
     { value: "id", label: "ID" },
@@ -62,7 +65,21 @@ const Users: React.FC = () => {
                     >
                       <PencilSquareIcon className="size-6 stroke-current" />
                     </Button>
-                    <Button buttonStyle="tertiary" className="p-2">
+                    <Button
+                      buttonStyle="tertiary"
+                      className="p-2"
+                      onClick={() => {
+                        openConfirmDialog({
+                          title: `${user.username}の削除`,
+                          description: `ID:${user.id} ユーザー名:${user.username}を削除します。本当によろしいですか？`,
+                          isWarning: true,
+                          onConfirm: () => {
+                            deleteUser(user.username);
+                          },
+                          customText: { confirm: "削除" },
+                        });
+                      }}
+                    >
                       <TrashIcon className="size-6 stroke-current" />
                     </Button>
                   </td>
