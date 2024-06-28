@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict, field_validator
 
 
 class UserCreate(BaseModel):
@@ -10,7 +10,15 @@ class UserCreate(BaseModel):
 
 
 class UserUpdate(BaseModel):
-    password: str
+    password: Optional[str]
+    is_superuser: Optional[bool]
+
+    @field_validator("password", "is_superuser")
+    @classmethod
+    def check_must_not_null(cls, value):
+        if value is None:
+            raise ValueError("null is not allowed value.")
+        return value
 
 
 class UserResponse(BaseModel):
