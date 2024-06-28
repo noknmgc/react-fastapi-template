@@ -25,7 +25,7 @@ class CRUDTodo(CRUDBase[Todo, TodoCreate, TodoUpdate]):
     def update_by_user(
         self, db: Session, todo_update: TodoUpdate, db_obj: Todo, user_id: int
     ) -> Todo:
-        todo_update_dict = todo_update.model_dump()
+        todo_update_dict = todo_update.model_dump(exclude_unset=True)
         todo_update_dict["updated_by"] = user_id
         db_obj = super().update(db=db, db_obj=db_obj, obj_in=todo_update_dict)
         return db_obj

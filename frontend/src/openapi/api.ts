@@ -236,7 +236,13 @@ export interface UserUpdate {
      * @type {string}
      * @memberof UserUpdate
      */
-    'password': string;
+    'password'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserUpdate
+     */
+    'is_superuser'?: boolean;
 }
 /**
  * 
@@ -1241,6 +1247,44 @@ export const TodosApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
+         * 自分の特定のTODOの取得
+         * @summary Read My Todo
+         * @param {number} todoId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        readMyTodo: async (todoId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'todoId' is not null or undefined
+            assertParamExists('readMyTodo', 'todoId', todoId)
+            const localVarPath = `/todos/{todo_id}`
+                .replace(`{${"todo_id"}}`, encodeURIComponent(String(todoId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearerWithCookie required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearerWithCookie", [], configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 自分の全てのTODOの取得
          * @summary Read My Todos
          * @param {*} [options] Override http request option.
@@ -1355,6 +1399,19 @@ export const TodosApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * 自分の特定のTODOの取得
+         * @summary Read My Todo
+         * @param {number} todoId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async readMyTodo(todoId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TodoResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.readMyTodo(todoId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TodosApi.readMyTodo']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * 自分の全てのTODOの取得
          * @summary Read My Todos
          * @param {*} [options] Override http request option.
@@ -1411,6 +1468,16 @@ export const TodosApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.deleteMyTodo(todoId, options).then((request) => request(axios, basePath));
         },
         /**
+         * 自分の特定のTODOの取得
+         * @summary Read My Todo
+         * @param {number} todoId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        readMyTodo(todoId: number, options?: any): AxiosPromise<TodoResponse> {
+            return localVarFp.readMyTodo(todoId, options).then((request) => request(axios, basePath));
+        },
+        /**
          * 自分の全てのTODOの取得
          * @summary Read My Todos
          * @param {*} [options] Override http request option.
@@ -1462,6 +1529,18 @@ export class TodosApi extends BaseAPI {
      */
     public deleteMyTodo(todoId: number, options?: RawAxiosRequestConfig) {
         return TodosApiFp(this.configuration).deleteMyTodo(todoId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 自分の特定のTODOの取得
+     * @summary Read My Todo
+     * @param {number} todoId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TodosApi
+     */
+    public readMyTodo(todoId: number, options?: RawAxiosRequestConfig) {
+        return TodosApiFp(this.configuration).readMyTodo(todoId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

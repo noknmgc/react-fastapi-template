@@ -10,7 +10,8 @@ class UserCreate(BaseModel):
 
 
 class UserUpdate(BaseModel):
-    password: str
+    password: str = None
+    is_superuser: bool = None
 
 
 class UserResponse(BaseModel):

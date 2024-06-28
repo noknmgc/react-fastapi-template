@@ -32,6 +32,31 @@ def read_my_todos(
     return current_user.todos
 
 
+@router.get("/{todo_id}", response_model=schemas.TodoResponse)
+def read_my_todo(
+    todo_id: int,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+):
+    """
+    自分の特定のTODOの取得
+    """
+    todo = crud.todo.read(db=db, id=todo_id)
+    if not todo:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Todo{todo_id}が存在しません。",
+        )
+
+    if not crud.todo.is_owner(db_obj=todo, user_id=current_user.id):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Todoを閲覧する権限がありません。",
+        )
+
+    return todo
+
+
 @router.put("/{todo_id}", response_model=schemas.TodoResponse)
 def update_my_todo(
     todo_id: int,

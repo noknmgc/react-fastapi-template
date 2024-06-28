@@ -34,4 +34,5 @@ class User(Base, TimestampMixin):
         "Todo",
         back_populates="owner",
         foreign_keys="Todo.owner_id",
+        order_by="Todo.id",
     )

@@ -26,11 +26,12 @@ class Todo(Base, TimestampMixin):
 
     id = Column(Integer, primary_key=True, index=True)
     owner_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"))
-    name = Column(String(200), nullable=True)
+    name = Column(String(200), nullable=False, server_default="")
 
     tasks = relationship(
         "Task",
         back_populates="todo",
+        order_by="Task.id",
     )
 
     owner = relationship(
