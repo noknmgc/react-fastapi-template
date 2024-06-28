@@ -25,7 +25,7 @@ const Users: React.FC = () => {
           <thead className="whitespace-nowrap bg-primary text-sm text-slate-50">
             <tr>
               {columns.map((col) => (
-                <th scope="col" className="px-6 py-3">
+                <th key={col.value} scope="col" className="px-6 py-3">
                   {col.label}
                 </th>
               ))}
@@ -37,9 +37,12 @@ const Users: React.FC = () => {
           <tbody>
             {users.map((user) => {
               return (
-                <tr className="border-b border-primary even:bg-slate-200">
+                <tr
+                  key={user.id}
+                  className="border-b border-primary even:bg-slate-200"
+                >
                   {columns.map((col) => (
-                    <td className="px-6 py-3">
+                    <td key={`${user.id} ${col.value}`} className="px-6 py-3">
                       {getColumnValue(user, col.value)}
                     </td>
                   ))}
