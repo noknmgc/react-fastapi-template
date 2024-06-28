@@ -3,9 +3,12 @@ import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { UserResponse } from "@/openapi";
 import { useUsers } from "../api/useUsers";
 import { Button } from "@/common/components/ui";
+import { useDialogStore } from "@/stores/dialog";
+import UserEditorDialog from "./UserEditorDialog";
 
 const Users: React.FC = () => {
   const { data: users } = useUsers();
+  const openCustomDialog = useDialogStore.use.openCustomDialog();
   const columns: { value: keyof UserResponse; label: string }[] = [
     { value: "id", label: "ID" },
     { value: "username", label: "名前" },
@@ -47,7 +50,16 @@ const Users: React.FC = () => {
                     </td>
                   ))}
                   <td className="flex items-center space-x-6 px-6 py-3">
-                    <Button buttonStyle="tertiary" className="p-2">
+                    <Button
+                      buttonStyle="tertiary"
+                      className="p-2"
+                      onClick={() => {
+                        openCustomDialog({
+                          Panel: UserEditorDialog,
+                          panelProps: { user },
+                        });
+                      }}
+                    >
                       <PencilSquareIcon className="size-6 stroke-current" />
                     </Button>
                     <Button buttonStyle="tertiary" className="p-2">
