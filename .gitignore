@@ -1,2 +1,4 @@
 postgresql_data/
 ignore/
+openapi.json
+.DS_Store
