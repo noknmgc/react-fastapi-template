@@ -14,6 +14,21 @@ export const Dialog: React.FC<DialogProps> = () => {
   const content = useDialogStore.use.content();
   const closeDialog = useDialogStore.use.closeDialog();
 
+  if (content.type === "custom") {
+    const { Panel, panelProps } = content;
+    return (
+      <HeadlessDialog
+        open={isOpen}
+        onClose={closeDialog}
+        className="relative z-50"
+      >
+        <div className="fixed inset-0 flex w-screen items-center justify-center bg-primary/30 p-4 backdrop-blur-sm">
+          <Panel {...panelProps} close={closeDialog} />
+        </div>
+      </HeadlessDialog>
+    );
+  }
+
   const { title, description, type, onClose = () => {} } = content;
   const handleClose = () => {
     onClose();

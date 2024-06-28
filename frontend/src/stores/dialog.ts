@@ -4,7 +4,7 @@ import createSelectors from "./utils/selectors";
 
 interface DialogContent {
   /** ダイアログの種類 */
-  type: "confirm" | "notice";
+  type: "confirm" | "notice" | "custom";
   /** ダイアログに表示するタイトル */
   title: string;
   /** ダイアログに表示する説明 */
@@ -37,11 +37,19 @@ interface NoticeContent extends DialogContent {
   };
 }
 
+interface CustomContent {
+  type: "custom";
+  /** ダイアログの中身の関数コンポーネント */
+  Panel: React.FC<any>;
+  /** Panelに渡すpropsのうち、closeを除いたもの */
+  panelProps: Omit<any, "close">;
+}
+
 interface DialogState {
   /** ダイアログの開閉状態 */
   isOpen: boolean;
   /** ダイアログの中身 */
-  content: ConfirmContent | NoticeContent;
+  content: ConfirmContent | NoticeContent | CustomContent;
 }
 
 interface DialogStateWithAction extends DialogState {
@@ -51,6 +59,8 @@ interface DialogStateWithAction extends DialogState {
   openConfirmDialog: (content: Omit<ConfirmContent, "type">) => void;
   /** noticeダイアログを開く */
   openNoticeDialog: (content: Omit<NoticeContent, "type">) => void;
+  /** customダイアログを開く */
+  openCustomDialog: (content: Omit<CustomContent, "type">) => void;
 }
 
 const initialState: DialogState = {
@@ -100,6 +110,14 @@ const useDialogBase = create<DialogStateWithAction>()(
             description,
             onClose,
             customText: { close },
+          };
+        }),
+      openCustomDialog: (content) =>
+        set((state) => {
+          state.isOpen = true;
+          state.content = {
+            type: "custom",
+            ...content,
           };
         }),
     }),
