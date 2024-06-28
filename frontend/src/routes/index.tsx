@@ -53,7 +53,9 @@ const createRouter = () =>
       element: (
         <ProtectedRoute validate={(user) => user.is_superuser}>
           <CommonLayout>
-            <Outlet />
+            <Suspense fallback={<Loading size="lg" />}>
+              <Outlet />
+            </Suspense>
           </CommonLayout>
         </ProtectedRoute>
       ),
