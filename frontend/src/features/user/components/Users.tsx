@@ -6,6 +6,7 @@ import { Button } from "@/common/components/ui";
 import { useDialogStore } from "@/stores/dialog";
 import UserEditorDialog from "./UserEditorDialog";
 import { useDeleteUser } from "../api/deleteUser";
+import UserCreateDialog from "./UserCreateDialog";
 
 const Users: React.FC = () => {
   const { data: users } = useUsers();
@@ -26,6 +27,17 @@ const Users: React.FC = () => {
   return (
     <>
       <h1 className="mb-6 text-xl font-bold">ユーザーリスト</h1>
+      <div className="flex justify-end">
+        <Button
+          className="mb-4"
+          onClick={() => {
+            openCustomDialog({ Panel: UserCreateDialog, panelProps: {} });
+          }}
+        >
+          新規作成
+        </Button>
+      </div>
+
       <div className="relative overflow-x-auto rounded-t-md">
         <table className="w-full text-left text-base">
           <thead className="whitespace-nowrap bg-primary text-sm text-slate-50">
