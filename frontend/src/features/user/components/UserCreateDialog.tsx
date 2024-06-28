@@ -32,13 +32,13 @@ const UserCreateDialog: React.FC<UserCreateDialogProps> = ({ close }) => {
 
     // パスワードの確認
     if (password !== confirmPassword) {
+      setPassword("");
+      setConfirmPassword("");
       newErrors.push("入力されたパスワードが違います。");
     }
+    setErrors(newErrors);
+    if (newErrors.length > 0) return;
 
-    if (newErrors.length > 0) {
-      setErrors(newErrors);
-      return;
-    }
     createUser({ username, password, is_superuser: role === "superuser" });
     close();
   };
@@ -91,12 +91,11 @@ const UserCreateDialog: React.FC<UserCreateDialogProps> = ({ close }) => {
             className="rounded-lg bg-red-50 p-4 text-sm text-warn-dark"
             role="alert"
           >
-            {errors.map((err) => (
-              <span key={err}>
-                {err}
-                <br />
-              </span>
-            ))}
+            <ul>
+              {errors.map((err) => (
+                <li key={err}>{err}</li>
+              ))}
+            </ul>
           </div>
         )}
 

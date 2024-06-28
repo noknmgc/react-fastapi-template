@@ -21,20 +21,19 @@ const UserEditorDialog: React.FC<UserEditorDialogProps> = ({ user, close }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setErrors([]);
+    const newErrors: string[] = [];
 
     // パスワードの確認
     if (isPasswordChange) {
       if (password !== confirmPassword) {
         setPassword("");
         setConfirmPassword("");
-        setErrors((prev) => [
-          ...prev,
-          "入力されたパスワードが違います。入力しなおしてください。",
-        ]);
-        return;
+        newErrors.push("入力されたパスワードが違います。");
       }
     }
+
+    setErrors(newErrors);
+    if (newErrors.length > 0) return;
     updateUser({
       username: user.username,
       userUpdate: {
@@ -97,12 +96,11 @@ const UserEditorDialog: React.FC<UserEditorDialogProps> = ({ user, close }) => {
             className="rounded-lg bg-red-50 p-4 text-sm text-warn-dark"
             role="alert"
           >
-            {errors.map((err) => (
-              <span key={err}>
-                {err}
-                <br />
-              </span>
-            ))}
+            <ul>
+              {errors.map((err) => (
+                <li key={err}>{err}</li>
+              ))}
+            </ul>
           </div>
         )}
 
