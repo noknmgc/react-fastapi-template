@@ -236,13 +236,13 @@ export interface UserUpdate {
      * @type {string}
      * @memberof UserUpdate
      */
-    'password': string | null;
+    'password'?: string;
     /**
      * 
      * @type {boolean}
      * @memberof UserUpdate
      */
-    'is_superuser': boolean | null;
+    'is_superuser'?: boolean;
 }
 /**
  * 
