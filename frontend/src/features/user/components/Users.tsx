@@ -26,7 +26,6 @@ const Users: React.FC = () => {
 
   return (
     <>
-      <h1 className="mb-6 text-xl font-bold">ユーザーリスト</h1>
       <div className="flex justify-end">
         <Button
           className="mb-4"
